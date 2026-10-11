@@ -79,3 +79,12 @@ All times PDT.
 - **Engineering:** freezer factor explained (human cold-stress breaks; AGV battery derate inside availability buffer) and the 9.2 pal/h gate must be proven inside -18 °C; DC airlock now two freezer-rated conveyors + manual bypass; contingency 20 % added to sensitivity (3.29 yrs).
 - **New plant:** US-code gate (MH16.1, IBC, NFPA 13 in-rack at -25 °C, US PE stamp) + an explicit answer to the "Shuanghui used imported cranes" precedent (European crane vendor kept as benchmark bid).
 - **Wording:** "zero capex" → "no new vehicle capex (relocation and re-commissioning only)"; phase-2 truck loading deferral explained.
+
+## 14:40 — Fact spot-check of load-bearing claims (Firecrawl, official pages)
+- VisionNav VNR20 mast options 8,300 / 9,200 / 10,200 / **11,200 mm** — confirmed on visionnav.com product page (verbatim).
+- Inform four-way pallet shuttle **-25 °C to 45 °C, 1.0 / 1.5 / 2.0 t** — confirmed on inform-international.com (verbatim).
+- Section 232 robotics & industrial machinery investigation **initiated 2 Sept 2025** — confirmed (bis.gov, Federal Register 90 FR 46382). Wording changed from "pending" to neutral + "current duty status to be confirmed by customs broker", since an outcome may have issued after spring 2026; citation added.
+
+## 14:41 — Submission package frozen
+- Final `dist/`: `Smithfield_logistics_package.zip` (2 PDFs at root + XLSX + README + tool + docs), `PROCESS.md`, `repo-link.txt`.
+- AI usage summary: 6 sub-agents total (3 parallel web research, 1 consistency reviewer, 1 substance red team, plus spot-checks by the main agent); main agent built the scoring tool, payback model, renderers, packaging and verification. Human decisions: architecture choice (O5), supplier set (3 extra), declining AI imagery, applying both review rounds, scope stop at 14:41 to protect the buffer.

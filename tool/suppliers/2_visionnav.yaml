@@ -28,6 +28,6 @@ scores:
   C3: {score: 3, evidence: claimed, note: ">1,500 vehicles, 350+ projects (2022 company claim)."}
   C4: {score: 3, evidence: claimed, note: "VC-funded (Meituan-led C+), unlisted — request audited financials, parent guarantee/escrow."}
   C5: {score: 2, evidence: claimed, note: "Cold-chain claims third-party; no named North American meat/freezer reference found."}
-  R1: {score: 1, evidence: claimed, note: "China-made: Section 301 on industrial trucks + pending Section 232 robotics/machinery action; demand tariff-inclusive DDP pricing with a cap clause."}
+  R1: {score: 1, evidence: claimed, note: "China-made: Section 301 on industrial trucks + Section 232 robotics/machinery action (initiated 2025-09-02); demand tariff-inclusive DDP pricing with a cap clause."}
   R2: {score: 0, evidence: unverified, note: "On-prem fleet manager / remote-access model not documented."}
   R3: {score: 0, evidence: unverified, note: "To be negotiated: throughput + availability guarantees with LDs."}
