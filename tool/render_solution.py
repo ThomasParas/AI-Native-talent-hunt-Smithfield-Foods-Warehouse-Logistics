@@ -48,6 +48,44 @@ for name, role in [("Supplier A", "—"), ("VisionNav", "mobile"), ("Multiway", 
     g = SC[name]["gates"]
     single_rows += f"<tr><td><b>{name}</b></td><td>{role}</td>" + "".join(f"<td>{badge(g[s])}</td>" for s in ("PLANT", "DC", "NEW")) + f'<td class="num">{SC[name]["adjusted"]}</td></tr>'
 
+
+def flow_svg():
+    """DC1 pallet flow, today vs phase 1, drawn from data (no images)."""
+    col = {"M": ("#f3e3d3", "#b54708", "Manual"), "A": ("#dbe7f3", "#5b7fa6", "Supplier A AGV (chilled only)"),
+           "N": ("#1f3a5f", "#1f3a5f", "New AGV (zone-dedicated)"), "C": ("#e3f1e8", "#1e7b4f", "Airlock conveyor")}
+    steps = ["Unload truck", "Dock → staging", "Staging → aisle", "Putaway ≤10.46 m", "Retrieve → lane", "Load truck"]
+    rows = [("Today", ["M", "M", "A", "M", "M", "M"], ["", "", "frozen: manual", "reach truck", "reach truck", ""]),
+            ("Phase 1", ["M", "M", "N", "N", "N", "M"], ["", "+ zone sort", "frozen via airlock", "AGV", "AGV", ""])]
+    w, gap, x0 = 108, 12, 92
+    out = ['<svg viewBox="0 0 800 222" width="100%" xmlns="http://www.w3.org/2000/svg" font-size="10.5">']
+    for i, s in enumerate(steps):
+        out.append(f'<text x="{x0 + i * (w + gap) + w / 2}" y="14" text-anchor="middle" fill="#5b6675" font-weight="600">{s}</text>')
+    for r, (label, kinds, notes) in enumerate(rows):
+        y = 24 + r * 74
+        out.append(f'<text x="8" y="{y + 30}" font-weight="700" fill="#1b2430">{label}</text>')
+        for i, (kd, note) in enumerate(zip(kinds, notes)):
+            fill, stroke, name = col[kd]
+            x = x0 + i * (w + gap)
+            txt = "#fff" if kd == "N" else "#1b2430"
+            out.append(f'<rect x="{x}" y="{y}" width="{w}" height="46" rx="5" fill="{fill}" stroke="{stroke}"/>')
+            out.append(f'<text x="{x + w / 2}" y="{y + 20}" text-anchor="middle" fill="{txt}" font-weight="700">{name.split(" (")[0]}</text>')
+            if note:
+                out.append(f'<text x="{x + w / 2}" y="{y + 36}" text-anchor="middle" fill="{txt}">{note}</text>')
+            if i < len(kinds) - 1:
+                out.append(f'<text x="{x + w + gap / 2}" y="{y + 27}" text-anchor="middle" fill="#5b6675">›</text>')
+    # airlock conveyor callout in phase 1 row
+    xc = x0 + 2 * (w + gap)
+    out.append(f'<rect x="{xc - 6}" y="{24 + 74 + 50}" width="{w + 12}" height="17" rx="3" fill="#e3f1e8" stroke="#1e7b4f"/>')
+    out.append(f'<text x="{xc + w / 2}" y="{24 + 74 + 61}" text-anchor="middle" font-size="8.5" fill="#1e7b4f">2 airlock conveyors into -18 °C</text>')
+    lx = 92
+    for kd in "MANC":
+        fill, stroke, name = col[kd]
+        out.append(f'<rect x="{lx}" y="196" width="12" height="12" rx="2" fill="{fill}" stroke="{stroke}"/><text x="{lx + 17}" y="206" fill="#1b2430">{name}</text>')
+        lx += 172
+    out.append("</svg>")
+    return "".join(out)
+
+
 ARCH = """
 <svg viewBox="0 0 760 250" width="100%" xmlns="http://www.w3.org/2000/svg" font-size="11">
  <rect x="10" y="8" width="740" height="44" rx="6" fill="#1f3a5f"/>
@@ -145,6 +183,7 @@ Inform's scope stops at the conveyor P&amp;D stations.</p>
 <li><b>Supplier A's 10 DC1 units</b> move to ambient horizontal routes at plants, where Plant 1 shows they are stable.</li>
 </ol>
 <h3>Automation map: pallet touches at DC1</h3>
+{flow_svg()}
 <table><tr><th>Touch (each pallet)</th><th>Today</th><th>Phase 1 (this plan)</th><th>Phase 2 (2028+)</th></tr>
 <tr><td>Unload truck → dock</td><td>Manual</td><td>Manual</td><td>Automated truck unloading (AGV-based; vendor capability to verify)</td></tr>
 <tr><td>Dock → staging lane (+ zone sort)</td><td>Manual</td><td>Manual (sort folded into this move)</td><td>Conveyorised dock with scan-and-divert</td></tr>
