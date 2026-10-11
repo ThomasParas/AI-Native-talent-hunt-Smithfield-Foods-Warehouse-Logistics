@@ -73,6 +73,6 @@ groups:
   - id: R
     name: Risk & governance
     criteria:
-      - {id: R1, w: 7,  name: "Trade & tariff exposure", scale: "5 = US/Mexico final assembly or tariff-inclusive firm pricing; 1 = full exposure to Section 301 + reciprocal tariffs on China-made trucks"}
+      - {id: R1, w: 7,  name: "Trade & tariff exposure", scale: "5 = US/Mexico final assembly or tariff-inclusive firm pricing; 1 = full exposure to Section 301 (+ pending Section 232 robotics/machinery) tariffs on China-made trucks"}
       - {id: R2, w: 6,  name: "Cybersecurity & data sovereignty", scale: "5 = on-prem fleet manager, no mandatory China cloud, SBOM, customer-controlled remote access, IEC 62443 alignment; 1 = vendor-cloud dependency"}
       - {id: R3, w: 6,  name: "Contract performance guarantees", scale: "5 = guaranteed throughput & ≥98 % availability with liquidated damages, pilot-to-scale price lock; 1 = best-effort"}

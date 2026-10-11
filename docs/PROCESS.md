@@ -42,7 +42,7 @@ All times PDT.
 ## 14:08–14:12 — Build (AI drafting, human-directed architecture)
 - Rendered both PDFs from data (HTML → headless Chromium) via `build.sh`; the numbers in the prose are pulled from `scores.json` / `payback.json`, so text and model cannot drift.
 - Design calls made while drafting: (1) cross-zone requirement solved by *process design* (zone-dedicated vehicles + airlock conveyors) instead of trusting unproven vehicle claims; (2) dock-side sort of mixed chilled/frozen trucks; (3) new plant at -25 °C / ~24 m crane AS/RS, ≈3.5× density vs 10.5 m AGV racking (indicative), with AGV-only design kept as fallback; (4) Smithfield owns the control layer (WES + VDA 5050) so two suppliers still run as one system.
-- Added a "how we sourced" paragraph (16-supplier long list → desk screen → shortlist → RFQ/FAT/pilot) after re-reading the brief ("determine how to source alternative suppliers").
+- Added a "how we sourced" paragraph (18-supplier long list → desk screen → shortlist → RFQ/FAT/pilot) after re-reading the brief ("determine how to source alternative suppliers").
 - Self-caught error: Plant 1 pallets are 1,000–1,500 kg, so the PLANT gate was raised from 1,134 kg to 1,500 kg; new-plant design load stays 1.5 t. Gate outcomes unchanged (were already UNVERIFIED for residual capacity).
 - Package: `package.sh` → `dist/Smithfield_logistics_package.zip` (2 PDFs + XLSX + README + tool source + research notes + this log). Fresh-unzip test: unzipped into a clean scratch dir, ran `./build.sh` per README → identical payback output. Secrets scan of repo, history and zip: clean (no keys used in this project).
 - Launched an independent "skeptical judge" sub-agent to review both PDFs against the brief and recompute numbers.
@@ -68,3 +68,14 @@ All times PDT.
 
 ## 14:27 — Second, substance-level red team (requested by Thomas)
 - Launched a red-team sub-agent with a different brief from the first reviewer: attack the substance as a WH Group ops VP, rival consultant or cold-chain engineer would. Angles: a missed single-supplier candidate, whether VisionNav is the right pick, engineering realism (9 pal/h at 10.46 m, airlock retrofits, -25 °C), CFO questions, US-China governance, and first-2-minute judge impressions. Allowed up to 3 web spot-checks of load-bearing facts.
+
+## 14:35 — Red-team fixes applied (10/10)
+- **Single-supplier claim narrowed:** Hangcha (automated reach at MODEX 2026, US subsidiary + dealers), HELI and EP/Lingxi added to the screen as Q4 RFQ mobile-layer challengers; VisionNav claim reworded to "only shortlisted with a *published* >10.5 m mast". The two-layer conclusion rests on the storage layer, so a challenger can change the mobile-layer winner but not the architecture.
+- **Labour:** savings relabelled as positions removed via attrition / avoided hires, not layoffs; labour-relations notice + retraining plan added to the Q4 roadmap.
+- **Headline:** KPI now "<3.0 yrs once award gates met; base 3.02"; added lifetime view: NPV ≈$3.35M, IRR ≈27.8 % (8-yr life, battery swap yr 5, 10 % WACC, no residual).
+- **Tariffs:** Section 232 robotics/industrial-machinery investigation (opened Sept 2025) added to R1 + risk table, with tariff-stack disclosure and a cap clause. Did not cite the agent's unverified claim about a June 2026 forklift 232 action.
+- **Politics:** new risk row (ICTS / EO 13873, public optics of Chinese-owned company + Chinese connected robots; air-gapped fleet manager, code escrow, warm non-Chinese swap-in, government-affairs pre-brief).
+- **Hikrobot rationale corrected:** Entity List restricts exports *to* listed parties; the real issue is NDAA §889 exposure for a USDA supplier + FCC Covered List.
+- **Engineering:** freezer factor explained (human cold-stress breaks; AGV battery derate inside availability buffer) and the 9.2 pal/h gate must be proven inside -18 °C; DC airlock now two freezer-rated conveyors + manual bypass; contingency 20 % added to sensitivity (3.29 yrs).
+- **New plant:** US-code gate (MH16.1, IBC, NFPA 13 in-rack at -25 °C, US PE stamp) + an explicit answer to the "Shuanghui used imported cranes" precedent (European crane vendor kept as benchmark bid).
+- **Wording:** "zero capex" → "no new vehicle capex (relocation and re-commissioning only)"; phase-2 truck loading deferral explained.

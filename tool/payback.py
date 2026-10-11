@@ -38,7 +38,20 @@ SENSITIVITY = {
     "manual_pal_h": (10.0, 14.0),
     "integration_usd": (800_000, 1_600_000),
     "outbound_ratio": (1.0, 0.5),     # brief gives inbound only; outbound scope may be partial
+    "project_pct": (0.10, 0.20),      # brownfield contingency often 15–20 %
 }
+
+
+def npv_irr(r, p, life=8, wacc=0.10, battery_yr=5, battery_pct=0.12):
+    """8-yr asset life, battery replacement in year 5 (12 % of vehicle capex), 10 % WACC, no residual value."""
+    veh = r["fleet"] * p["agv_landed_usd"]
+    flows = [-r["capex"]] + [r["net_annual"] - (battery_pct * veh if y == battery_yr else 0) for y in range(1, life + 1)]
+    npv = sum(f / (1 + wacc) ** t for t, f in enumerate(flows))
+    lo, hi = -0.9, 1.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if sum(f / (1 + mid) ** t for t, f in enumerate(flows)) > 0 else (lo, mid)
+    return {"npv_usd": round(npv, -3), "irr_pct": round(lo * 100, 1), "life_yrs": life, "wacc_pct": wacc * 100}
 # Combined adverse case: several assumptions go wrong together
 ADVERSE = {"agv_landed_usd": 240_000, "agv_pal_h": 7.0, "outbound_ratio": 0.5}
 
@@ -122,6 +135,7 @@ if __name__ == "__main__":
     be_plant = next(v for v in range(10, 400, 2) if model(BASE | fz | {"inbound_pal_h": v / 2})["payback_yrs"] < 3.0)
     out = {"inputs": BASE, "base": base, "sensitivity": sens, "adverse": adverse,
            "sort_absorbed": model(BASE | {"dock_sort_fte": 0.0}),
+           "npv": npv_irr(base, BASE),
            "at_observed_6_2": model(BASE | {"agv_pal_h": 6.2}), "adverse_inputs": ADVERSE,
            "breakeven_agv_pal_h": be_rate, "plants": plants, "breakeven_plant_moves_h": be_plant,
            "supplier_a": supplier_a_check(), "plant1": plant1_check()}

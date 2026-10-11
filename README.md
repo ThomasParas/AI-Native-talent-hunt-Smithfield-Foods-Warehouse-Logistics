@@ -31,5 +31,5 @@ To model another site's payback, edit the `BASE` inputs in `tool/payback.py` (mo
 
 ## Honesty notes
 - Supplier specs come from public sources (official pages first). Anything not published is scored 0 and listed as a gap. Totals are therefore conservative by design.
-- The payback inputs (labour cost, AGV price, cycle times) are explicit assumptions, not quotes. The DC1 base case is ≈3.0 years, right at the <3-year standard, so the plan turns price and pilot throughput into award conditions. Plant payback is modelled by archetype.
+- The payback inputs (labour cost, AGV price, cycle times) are explicit assumptions, not quotes. The DC1 base case is ≈3.0 years (NPV ≈$3.35M, IRR ≈28 % over 8 years), right at the <3-year standard, so the plan turns price and pilot throughput into award conditions. Plant payback is modelled by archetype.
 - The research was AI-assisted (Claude Code with web-research sub-agents). The decisions were human (see `docs/PROCESS.md`).

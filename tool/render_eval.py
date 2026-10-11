@@ -123,7 +123,7 @@ Scores are deliberately conservative: unverified evidence scores zero, so each s
 
 <h2>4. Weighted criteria: technical, commercial, risk &amp; governance (100 points)</h2>
 {criteria_table()}
-<p class="small">Weight rationale: technical fit 46 (the pilot failed on capability), commercial 35 (payback &lt;3 yrs is the group roll-out standard; North American service decides uptime across 41 sites), risk &amp; governance 19 (US tariffs on China-made industrial trucks, cybersecurity of connected fleet software, enforceable guarantees). Hikrobot was screened out before scoring: it is a Hikvision subsidiary, and Hikvision is on the US Entity List / FCC Covered List.</p>
+<p class="small">Weight rationale: technical fit 46 (the pilot failed on capability), commercial 35 (payback &lt;3 yrs is the group roll-out standard; North American service decides uptime across 41 sites), risk &amp; governance 19 (US tariffs on China-made industrial trucks, cybersecurity of connected fleet software, enforceable guarantees). Hikrobot was screened out before scoring: as a Hikvision affiliate, its camera-guided vehicles create NDAA FY2019 §889 exposure for a USDA supplier, and Hikvision equipment is on the FCC Covered List.</p>
 
 <h2>5. Results: Supplier A + three independently traceable candidates</h2>
 {summary_table()}
@@ -147,6 +147,7 @@ everything else (certification, service, financials, cybersecurity, contract ter
 <tr><td>T5 integration</td><td>API docs, VDA 5050 conformity, Accellos/WMS adapter, read-only fallback via middleware</td><td>End-to-end task dispatch + status feedback in pilot</td></tr>
 <tr><td>C2 service</td><td>US entity, technician count/locations, parts depot, SLA</td><td>Reference call with 2 US customers</td></tr>
 <tr><td>R1 tariffs</td><td>Country of origin per HTS line; DDP tariff-inclusive price with change clause</td><td>Customs-broker ruling</td></tr>
+<tr><td>New plant: US codes</td><td>ANSI MH16.1 rack design, IBC snow/seismic, NFPA 13 / FM in-rack sprinklers at -25 °C, stamped by a US PE</td><td>Design review by Epstein + insurer (FM) before design freeze</td></tr>
 <tr><td>R2 cyber</td><td>On-prem deployment option, SBOM, remote-access model, data-flow diagram, IEC 62443 mapping</td><td>Smithfield IT security review / pen-test</td></tr>
 </table>
 </body></html>"""

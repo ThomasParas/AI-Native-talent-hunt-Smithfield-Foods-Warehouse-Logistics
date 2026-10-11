@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parent
 S = json.loads((ROOT.parent / "build/scores.json").read_text())
 P = json.loads((ROOT.parent / "build/payback.json").read_text())
 B, A, P1, I = P["base"], P["supplier_a"], P["plant1"], P["inputs"]
+NPV = P["npv"]
 ADV, SA, BE, BEP, PL = P["adverse"], P["sort_absorbed"], P["breakeven_agv_pal_h"], P["breakeven_plant_moves_h"], P["plants"]
 SC = {r["short"]: r for r in S["results"]}
 lo = min(min(s["payback_good"], s["payback_bad"]) for s in P["sensitivity"])
@@ -26,12 +27,14 @@ def badge(v):
 
 LABEL = {"agv_landed_usd": "AGV landed price (DDP incl. tariffs)", "agv_pal_h": "AGV dock-to-rack cycles/h",
          "loaded_cost_usd": "Loaded labour cost / FTE", "manual_pal_h": "Manual reach-truck productivity",
-         "integration_usd": "Integration + site works", "outbound_ratio": "Outbound moves per inbound (brief gives inbound only)"}
+         "integration_usd": "Integration + site works", "outbound_ratio": "Outbound moves per inbound (brief gives inbound only)", "project_pct": "Project contingency (brownfield)"}
 
 
 def fmt(param, v):
     if param == "outbound_ratio":
         return f"{v:g}×"
+    if param == "project_pct":
+        return f"{v * 100:.0f} %"
     return k(v) if "usd" in param else f"{v:g} pal/h"
 
 
@@ -88,10 +91,10 @@ can deliver the high-density -25 °C storage that a world-class greenfield plant
 </ol>
 <b>The economics are at the threshold, so the award is gated on them.</b> End-to-end automation at DC1 models at ≈{B["payback_yrs"]} years (≈{SA["payback_yrs"]} if the dock sort fits into the existing dock-to-staging move) against the &lt;3-year standard.
 We therefore turn the model into award conditions: a DDP price of ≤{k(B["max_landed_price_for_3yr"])} per AGV and ≥{BE:g} pal/h at height proven in the pilot.
-Plants qualify site by site. Only freezer stores with ≥{BEP} dock/storage moves/h clear 3 years; low-volume plants receive Supplier A's surplus units at zero capex.
+The DC1 business case is also positive on a lifetime basis: NPV {m(NPV["npv_usd"])}, IRR {NPV["irr_pct"]} % over {NPV["life_yrs"]} years. Labour savings come from attrition and avoided hires in high-turnover cold-store roles, not layoffs. Plants qualify site by site. Only freezer stores with ≥{BEP} dock/storage moves/h clear 3 years; low-volume plants receive Supplier A's surplus units, with no new vehicle capex (relocation and re-commissioning only).
 Core suppliers are just two. Multiway is a second source invited to compete for plant waves, the non-Chinese benchmark is a fallback only, and Supplier A gets no new orders.</div>
 <div class="kpis">
-<div class="kpi"><div class="v">3.9 → {B["payback_yrs"]} yrs</div><div class="l">DC1 payback, horizontal-only vs end-to-end (base; {SA["payback_yrs"]} if dock sort absorbed; one-at-a-time range {lo}–{hi})</div></div>
+<div class="kpi"><div class="v">3.9 → &lt;3.0 yrs</div><div class="l">DC1 payback once award gates are met; base case {B["payback_yrs"]} ({SA["payback_yrs"]} if dock sort absorbed); NPV {m(NPV["npv_usd"])}, IRR {NPV["irr_pct"]} % over {NPV["life_yrs"]} yrs</div></div>
 <div class="kpi"><div class="v">{B["fleet"]} AGVs</div><div class="l">DC1 zone-dedicated fleet for {B["moves_h"]:.0f} moves/h (in + out)</div></div>
 <div class="kpi"><div class="v">≤{k(B["max_landed_price_for_3yr"])} · ≥{BE:g}/h</div><div class="l">Award gates: DDP price per AGV and pilot pal/h at height for &lt;3 yrs</div></div>
 <div class="kpi"><div class="v">≥{BEP} moves/h</div><div class="l">Plant qualification threshold (8.5 m freezer store, in + out)</div></div>
@@ -101,19 +104,19 @@ Core suppliers are just two. Multiway is a second source invited to compete for 
 <p>Binding retrofit constraints (from the brief and DC1 data): stack to <b>8.5 m</b> in plants and <b>10.5 m</b> in DCs (top beam 10.46 m); DC pallets 544–907 kg, max <b>1,134 kg</b>, plant pallets up to <b>1,500 kg</b> (Plant 1), 40×48 in GMA grid-base;
 chilled -2 °C and frozen <b>-18 °C</b>; mixed chilled and frozen truckloads; 20 h/day. Smithfield context (public sources: Lineage 2022 press release, FY2025 10-K): Olathe, KS is already a fully automated cold DC (Lineage, 18 cranes), so this plan does not re-pitch a generic automated DC.
 It targets the 4 DCs and 36 plants named in the brief. <i>Assumption:</i> the unnamed new flagship plant is the publicly announced Sioux Falls, SD facility (Smithfield press release 2026-02-16: up to $1.3B, production end-2028; Epstein design-build per ENR 2026-06-30). The design below does not depend on that identification.</p>
-<p><b>How we sourced the alternatives.</b> (1) <i>Long list</i>, 16 independently traceable Chinese suppliers across two solution types. Mobile robots: VisionNav, Multiway, Hikrobot, Geek+, Quicktron, Mooe, Jaten, Standard Robots, Youibot, Hangcha. Automated storage (AS/RS, four-way shuttle, conveyors): Inform, BZKJ, KSEC, Kede, Zikoo, Siasun.
-(2) <i>Desk screen</i> against the knock-out gates using official datasheets first. Out: Geek+ (120 mm lift, −10 °C), Quicktron (3.5 m), Hikrobot (4.5 m, no cold rating, Hikvision sanctions exposure), and others with no high-reach or cold specs.
+<p><b>How we sourced the alternatives.</b> (1) <i>Long list</i>, 18 independently traceable Chinese suppliers across two solution types. Mobile robots: VisionNav, Multiway, Hikrobot, Geek+, Quicktron, Mooe, Jaten, Standard Robots, Youibot, Hangcha, HELI, EP/Lingxi. Automated storage (AS/RS, four-way shuttle, conveyors): Inform, BZKJ, KSEC, Kede, Zikoo, Siasun.
+(2) <i>Desk screen</i> against the knock-out gates using official datasheets first. Out: Geek+ (120 mm lift, −10 °C), Quicktron (3.5 m), Hikrobot (4.5 m, no cold rating, Hikvision-affiliate compliance exposure), and others with no high-reach or cold specs. <b>Hangcha</b> (automated pantograph reach truck shown at MODEX 2026, with a US subsidiary and dealer service network), <b>HELI</b> and <b>EP/Lingxi</b> publish no automated high-reach freezer specs yet. They are invited to the Q4 2026 RFQ as mobile-layer challengers. Hangcha in particular could beat VisionNav on North American service. That would change <i>who</i> wins the mobile layer, not the two-layer conclusion, which rests on the storage layer.
 (3) <i>Shortlist and score</i>: VisionNav, Multiway, Inform (supplier_evaluation_criteria.pdf). (4) <i>RFQ → witnessed factory test → DC1 pilot</i> before any award (section 6).
 We also checked for an in-group reference: Shuanghui's (WH Group China) Mianyang −18 °C high-bay store used imported equipment, so there is no Chinese supplier reference inside the group yet.</p>
 <table><tr><th>Supplier</th><th>Role</th><th>Plants</th><th>DCs</th><th>New plant</th><th>Risk-adj. score</th></tr>{single_rows}</table>
-<p class="small">CONDITIONAL = no gate failed, but at least one is claimed or unverified and must be proven before award. Hikrobot was screened out (Hikvision subsidiary; US Entity List / FCC Covered List). Non-Chinese freezer AGVs (Dematic, Muratec) are kept only as a price/spec benchmark and fallback.</p>
+<p class="small">CONDITIONAL = no gate failed, but at least one is claimed or unverified and must be proven before award. Hikrobot was screened out: as a Hikvision affiliate, its camera-guided vehicles create NDAA FY2019 §889 exposure for a supplier to USDA programmes, plus Hikvision is on the FCC Covered List. Non-Chinese freezer AGVs (Dematic, Muratec) are kept only as a price/spec benchmark and fallback.</p>
 
 <h3>Single-supplier test: why one supplier cannot cover all scenarios today</h3>
 <table><tr><th>Candidate as sole supplier</th><th>Retrofits (40 sites)</th><th>New plant</th><th>Verdict</th></tr>
 <tr><td>Supplier A</td><td>Fails height, load, freezer, cross-zone</td><td>Would force ≤4 m storage</td><td>{badge("FAIL")}</td></tr>
 <tr><td>Multiway</td><td>Plants: height OK (9.5 m, -30 °C claimed), 1,500 kg at 8.5 m unproven (R16: 750 kg at 9.5 m); DCs fail: 700–750 kg at 9.5–11 m &lt; 1,134 kg</td><td>Only with ≤8.5 m racking</td><td>{badge("FAIL")} at DCs</td></tr>
 <tr><td>Inform</td><td>Requires ripping out racks in 40 operating buildings; no high-reach forklift line; no US entity</td><td>Strong (-25 °C, 1–2 t shuttles, cranes)</td><td>{badge("FAIL")} on payback / disruption</td></tr>
-<tr><td>VisionNav</td><td>Only Chinese reach AGV with &gt;10.5 m mast (11.2 m); US entity</td><td>Possible only as a 10.5 m AGV-racked store: ≈3.5× footprint, more freezer envelope, lower throughput</td><td>{badge("CONDITIONAL")}: mobile layer only</td></tr>
+<tr><td>VisionNav</td><td>Only shortlisted reach AGV with a <i>published</i> &gt;10.5 m mast option (11.2 m) for existing selective racks; US entity</td><td>Possible only as a 10.5 m AGV-racked store: ≈3.5× footprint, more freezer envelope, lower throughput</td><td>{badge("CONDITIONAL")}: mobile layer only</td></tr>
 </table>
 <p>The closest single-supplier design (O2: VisionNav everywhere, new plant limited to 10.5 m AGV racking) was evaluated and rejected for the new plant on density, energy and throughput grounds (section 4).
 We keep the single-supplier principle where it creates the most value: <b>one mobile fleet, one service contract, one spare-parts pool and one training curriculum across all 41 sites</b>, because vehicles are where the 41-site scale sits.
@@ -136,7 +139,7 @@ Inform's scope stops at the conveyor P&amp;D stations.</p>
 <ol>
 <li><b>Automate the whole move, not one leg.</b> High-reach AGVs move each pallet from the dock lane to its rack slot (up to 10.46 m) and from the rack to the outbound lane. This removes the reach-truck putaway that dominates labour cost. Truck unloading and loading stay manual in phase 1.</li>
 <li><b>Sort mixed trucks at the dock.</b> Receiving workers already move pallets from the dock to staging; that move now drops them into separate chilled and frozen lanes. This removes the mixed-load blocker that limited Supplier A's utilisation. The model conservatively costs it as an extra {I["dock_sort_fte"]} FTE.</li>
-<li><b>Zone-dedicated fleets plus airlock conveyors</b> instead of vehicles that cross zones. Frozen pallets enter the -18 °C zone on a short P&amp;D conveyor through a rapid-roll door. The cross-zone requirement is met by design, so it does not depend on an unproven vehicle claim.</li>
+<li><b>Zone-dedicated fleets plus airlock conveyors</b> instead of vehicles that cross zones. Frozen pallets enter the -18 °C zone on <b>two</b> freezer-rated P&amp;D conveyors (in and out, ≥60 pal/h each) through rapid-roll doors, with heated-floor and frost-heave protection, queue lanes on both sides, and the existing door kept as a manual bypass. The frozen dock sort drops pallets straight onto the conveyor infeed. If the $1.1M integration allowance proves light, the $1.6M case is in the sensitivity table (3.37 yrs). The cross-zone requirement is met by design, so it does not depend on an unproven vehicle claim.</li>
 <li><b>Segregate traffic and run 5S</b> (the brief expects 4.5 → 6.2 pal/h from clear routes alone): AGV-only aisles, pallet-debris rules, marked crossings.</li>
 <li><b>Integration:</b> a WES reads tasks from Accellos (now Körber) through the existing read-only access and confirms by scan, while write access or API rights are negotiated. Full read/write is a phase-2 exit criterion.</li>
 <li><b>Supplier A's 10 DC1 units</b> move to ambient horizontal routes at plants, where Plant 1 shows they are stable.</li>
@@ -148,7 +151,7 @@ Inform's scope stops at the conveyor P&amp;D stations.</p>
 <tr><td>Staging → rack aisle</td><td>Supplier A AGV (chilled only)</td><td><b>AGV</b> (chilled + frozen)</td><td>AGV</td></tr>
 <tr><td>Putaway to ≤10.46 m</td><td>Manual reach truck</td><td><b>AGV</b></td><td>AGV</td></tr>
 <tr><td>Retrieval → outbound lane</td><td>Manual reach truck</td><td><b>AGV</b></td><td>AGV</td></tr>
-<tr><td>Load truck</td><td>Manual</td><td>Manual</td><td>Automated truck loading</td></tr>
+<tr><td>Load truck</td><td>Manual</td><td>Manual</td><td>Automated truck loading (deferred: trailer and load variability; business case after the phase-1 pilot)</td></tr>
 <tr><td><b>Automated touches</b></td><td><b>≈1 of 8</b> (chilled inbound only)</td><td><b>4 of 8</b> (the 4 forklift-heavy touches)</td><td><b>8 of 8</b></td></tr>
 </table>
 <h3>3.2 DC1 payback model (tool/payback.py, all assumptions explicit)</h3>
@@ -157,15 +160,16 @@ Inform's scope stops at the conveyor P&amp;D stations.</p>
 <tr><td>Dock↔rack moves/h (61 in + 61 out, 59 % chilled)</td><td class="num">{B["moves_h"]:.0f}</td></tr>
 <tr><td>AGV fleet (9 pal/h each, +15 % availability buffer, zone-dedicated)</td><td class="num">{B["fleet"]}</td></tr>
 <tr><td>Manual positions replaced (12 pal/h; ×0.8 in freezer)</td><td class="num">{B["manual_positions"]}</td></tr>
-<tr><td>Net FTE redeployed (2.4 FTE/position − 2.4 supervisors − 2.4 dock sort)</td><td class="num">{B["fte_saved"]}</td></tr>
+<tr><td>Net positions removed through attrition and avoided hires, not layoffs (2.4 FTE/position − 2.4 supervisors − 2.4 dock sort)</td><td class="num">{B["fte_saved"]}</td></tr>
 <tr><td>Capex (vehicles {k(I["agv_landed_usd"])} each + {m(I["integration_usd"])} integration, +10 % project)</td><td class="num">{m(B["capex"])}</td></tr>
 <tr><td>Annual savings (labour, avoided reach trucks, damage)</td><td class="num">{m(B["annual_savings"])}</td></tr>
 <tr><td>Annual opex (service 6 %, software)</td><td class="num">{m(B["annual_opex"])}</td></tr>
 <tr><td><b>Simple payback</b></td><td class="num"><b>{B["payback_yrs"]} yrs</b></td></tr>
+<tr><td>NPV / IRR ({NPV["life_yrs"]}-yr life, battery swap yr 5, {NPV["wacc_pct"]:.0f} % WACC, no residual)</td><td class="num">{m(NPV["npv_usd"])} / {NPV["irr_pct"]} %</td></tr>
 </table></div><div>
 <table><tr><th>Sensitivity (one at a time)</th><th class="num">Base</th><th class="num">Favourable</th><th class="num">Adverse</th></tr>{sens_rows}</table>
 <div class="box warn"><b>Honest read:</b> the base case sits on the 3-year line ({B["payback_yrs"]} yrs). A combined adverse case ($240k AGV, 7 pal/h, outbound 0.5×) gives <b>{ADV["payback_yrs"]} yrs</b>.
-At the 6.2 pal/h observed for horizontal moves in today's mixed traffic, payback would be ≈{P["at_observed_6_2"]["payback_yrs"]} yrs. Why we model 9 pal/h: bottom-up, one dock-to-rack cycle is ≈100 m each way at 1.5 m/s, lift and lower to 10 m, and ≈60 s of positioning, about 260 s or ≈14 cycles/h theoretical. We apply ×0.65 for traffic and charging.
+At the 6.2 pal/h observed for horizontal moves in today's mixed traffic, payback would be ≈{P["at_observed_6_2"]["payback_yrs"]} yrs. Why we model 9 pal/h: bottom-up, one dock-to-rack cycle is ≈100 m each way at 1.5 m/s, lift and lower to 10 m, and ≈60 s of positioning, about 260 s or ≈14 cycles/h theoretical. We apply ×0.65 for traffic and charging. The ×0.8 freezer factor is applied to people only, because it models cold-stress warm-up breaks; AGV battery derating in the freezer sits inside the 15 % availability buffer. That is why the ≥9.2 pal/h gate must be proven <b>inside the -18 °C zone</b>, not only in the chilled zone.
 So these numbers become award conditions: DDP price ≤<b>{k(B["max_landed_price_for_3yr"])}</b> per AGV and ≥<b>{BE:g} pal/h</b> per AGV proven in the pilot, backed by liquidated damages.</div>
 </div></div>
 <p class="small">Assumptions marked in the model: outbound ≈ inbound; loaded labour {k(I["loaded_cost_usd"])}/FTE/yr; 2.4 FTE per 20 h/day position; reach truck {k(I["truck_cost_usd"])}/yr. Inference, not data: if a manual horizontal move runs at ≈20 pal/h, Supplier A's 3.9-yr payback implies ≈{m(A["implied_all_in_capex"])} all-in (≈{k(A["implied_per_agv"])} per AGV). This is plausible for a horizontal-only project; Smithfield's actual capex should replace it.</p>
@@ -178,11 +182,11 @@ So these numbers become award conditions: DDP price ≤<b>{k(B["max_landed_price
 <table><tr><th>Archetype</th><th class="num">AGVs</th><th class="num">FTE redeployed</th><th class="num">Capex</th><th class="num">Payback</th></tr>
 {"".join(f'<tr><td>{n}</td><td class="num">{v["fleet"]}</td><td class="num">{v["fte_saved"]}</td><td class="num">{m(v["capex"])}</td><td class="num"><b>{v["payback_yrs"]} yrs</b></td></tr>' for n, v in PL.items())}
 </table>
-<b>Rule:</b> a plant qualifies for new high-reach AGVs when its 8.5 m freezer store handles ≥{BEP} moves/h (in + out). Low-volume, horizontal-only plants like Plant 1 (≈5 yrs with new capex) get Supplier A's surplus units, which costs nothing. The brief's figure that 7 AGVs replaced only 2 operators at Plant 1 confirms that low-volume transfer lanes do not pay back new vehicles.</li>
+<b>Rule:</b> a plant qualifies for new high-reach AGVs when its 8.5 m freezer store handles ≥{BEP} moves/h (in + out). Low-volume, horizontal-only plants like Plant 1 (≈5 yrs with new capex) get Supplier A's surplus units, with no new vehicle capex (relocation, re-mapping and re-commissioning only). The brief's figure that 7 AGVs replaced only 2 operators at Plant 1 confirms that low-volume transfer lanes do not pay back new vehicles.</li>
 <li><b>Building check per site:</b> Plant 1's building is listed at ≥5 m, below the 8.5 m stacking requirement. A clear-height survey per site sets the mast (8.3 / 9.2 m) and identifies sites where 8.5 m storage exists only in separate freezer buildings.</li>
 <li><b>Plant 1, right-size first:</b> demand is {P1["demand_pal_h"]} pal/h (400 pal/day over 16.5 h), against a stated capacity of {P1["stated_capacity_pal_h"]} pal/h (7 × 21), which is {P1["stated_utilisation_pct"]} % utilisation.
 21 pal/h per unit means a ≈171 s cycle. If 288.6 m is one way, that needs ≥3.4 m/s even with zero pick/drop time; if it is the round trip, 1.7–2.6 m/s. Laden forklift AGVs typically run 1–1.5 m/s, so neither reading is credible. If 21 pal/h is the fleet rate, capacity is only {P1["if_21_is_fleet_rate_pal_day"]} pal/day, below demand.
-A two-day time study settles it; at a realistic 8 pal/h, {P1["units_needed_at_8_pal_h"]} units suffice and 3 can move to other ambient lanes at no capex.</li>
+A two-day time study settles it; at a realistic 8 pal/h, {P1["units_needed_at_8_pal_h"]} units suffice and 3 can move to other ambient lanes with no new vehicle capex.</li>
 <li><b>Wave order:</b> rank the 40 sites with the same payback model using each site's moves/h, freezer share and labour rate. Do the 4 DCs first (highest moves/h at height), then plants by freezer volume.</li>
 </ul>
 
@@ -208,14 +212,15 @@ A two-day time study settles it; at a realistic 8 pal/h, {P1["units_needed_at_8_
 <tr><td>Operations</td><td>No people or vehicles in -25 °C storage; highest throughput per m²</td><td>One supplier network-wide; flexible layout; more vehicles in freezer aisles</td></tr>
 </table>
 <div class="box">At order-of-magnitude level the capex is comparable, so the decision rests on footprint, refrigeration energy and operations, all of which favour O1. The 2.4× envelope drives permanent energy cost.
-All figures are assumptions to be replaced by Epstein and Inform estimates at design freeze.
+All figures are assumptions to be replaced by Epstein and Inform estimates at design freeze. <b>The in-group precedent:</b> Shuanghui's Mianyang store used imported cranes. We still shortlist Inform because of price, its -25 °C pallet-shuttle line and its Thailand plant for US supply, but it must clear the same factory test and US-code gate a European crane vendor would. A European crane vendor is kept as the benchmark bid.
 This option is kept as a fallback if Inform fails its gates (UL listing, GMA pallets, US service). In that case the new plant reverts to a VisionNav-only design at 10.5 m.</div>
 
 <h2>5. Risks and mitigations</h2>
 <table><tr><th>Risk</th><th>Mitigation</th></tr>
 <tr><td>VisionNav's load at 10.46 m and its -18 °C rating are unpublished (gates G2/G3 CONDITIONAL)</td><td>Witnessed factory test (1,134 kg at 10.46 m; 72 h at -18 °C) before any network award. Fallback: Multiway for plants plus a non-Chinese freezer reach AGV (Dematic/Muratec) for DCs.</td></tr>
 <tr><td>No UL 3100 / B56.5 listing found for any Chinese candidate</td><td>Contractual NRTL certification plan with dates; NRTL field evaluation at the first site; no go-live without it.</td></tr>
-<tr><td>US tariffs on China-made industrial trucks; payback is very sensitive to landed price</td><td>DDP tariff-inclusive pricing with a {k(B["max_landed_price_for_3yr"])} cap; customs-broker ruling; ask about Inform's Thailand and VisionNav's non-China assembly options.</td></tr>
+<tr><td>US tariffs on China-made industrial trucks (Section 301 on HTS 8427) plus the pending Section 232 action on robotics and industrial machinery (investigation opened Sept 2025); payback is very sensitive to landed price</td><td>Show the tariff stack in every quote (FOB + 301 + 232 + freight = DDP). Contract clause: the supplier absorbs any increase above the {k(B["max_landed_price_for_3yr"])} cap, or the award re-opens. Customs-broker ruling; ask about Inform's Thailand and VisionNav's non-China assembly options.</td></tr>
+<tr><td>Regulatory and political: a Chinese-owned US food processor deploying Chinese connected robots at 41 critical food-supply sites invites Commerce ICTS review (EO 13873) and public scrutiny. WH Group ownership helps sourcing leverage in China but amplifies that scrutiny.</td><td>Air-gapped, on-prem fleet manager; US-hosted software build with code escrow; a qualified non-Chinese VDA 5050 swap-in (Dematic/Muratec) kept warm; government-affairs pre-brief before award.</td></tr>
 <tr><td>Cybersecurity scrutiny of China-connected equipment</td><td>On-prem fleet manager and WCS; no outbound cloud by default; SBOM; Smithfield-controlled remote access; pen-test before go-live.</td></tr>
 <tr><td>VisionNav is venture-funded and unlisted (rolling out to 41 sites)</td><td>Audited financials, source-code and spares escrow, parent guarantee, VDA 5050 so another fleet can be swapped in.</td></tr>
 <tr><td>Inform has no US entity</td><td>Contract through Epstein with a named US installation and service partner; resident technician; critical spares on site.</td></tr>
@@ -224,10 +229,10 @@ This option is kept as a fallback if Inform fails its gates (UL listing, GMA pal
 
 <h2>6. Roadmap and award gates</h2>
 <table><tr><th>When</th><th>Action</th><th>Gate to pass</th></tr>
-<tr><td>Q4 2026 (next 90 days)</td><td>RFQs: VisionNav (network), Multiway (plants), Dematic/Muratec (benchmark). Inform design-in RFQ with Epstein. Plant 1 time study. DC1 5S and traffic segregation. WES selection. Customs ruling.</td><td>Complete load charts, cold ratings, UL plan, DDP prices</td></tr>
+<tr><td>Q4 2026 (next 90 days)</td><td>RFQs: VisionNav (network), Hangcha / HELI / EP (mobile-layer challengers), Multiway (plants), Dematic/Muratec (benchmark). Labour-relations notice and redeployment plan (union consultation where sites are represented; drivers retrained as AGV technicians / dock-sort leads). Inform design-in RFQ with Epstein. Plant 1 time study. DC1 5S and traffic segregation. WES selection. Customs ruling.</td><td>Complete load charts, cold ratings, UL plan, DDP prices</td></tr>
 <tr><td>Q1 2027</td><td>Witnessed factory tests in China (-18 °C chamber; 1,134 kg at 10.46 m and 1,500 kg at 8.5 m); Inform GMA-pallet test</td><td>G1–G5 PASS (G4 N/A by design)</td></tr>
 <tr><td>Q2 2027</td><td>DC1 pilot: chilled + frozen fleets, dock sort, airlock P&amp;D, WES live (8 weeks)</td><td>≥{BE:g} pal/h per AGV at height, ≥98 % availability, NRTL sign-off, payback &lt;3 yrs re-modelled</td></tr>
-<tr><td>1H 2027</td><td>New plant: Inform design-in and storage design freeze aligned with groundbreaking</td><td>Inform G5/G6 evidence; design review</td></tr>
+<tr><td>1H 2027</td><td>New plant: Inform design-in and storage design freeze aligned with groundbreaking</td><td>Inform G5/G6 evidence; US code compliance stamped by a US PE through Epstein: ANSI MH16.1 (RMI) racking, IBC snow and seismic for a 24 m high-bay, NFPA 13 / FM in-rack dry sprinklers at -25 °C</td></tr>
 <tr><td>H2 2027 (after pilot sign-off)</td><td>DCs 2–4; plant wave 1 (qualifying plants only, VisionNav vs Multiway competed)</td><td>Pilot sign-off + NRTL clearance; site payback &lt;3 yrs</td></tr>
 <tr><td>2028</td><td>New plant: install and commission storage + mobile layers</td><td>FAT; SAT before production start (end-2028)</td></tr>
 <tr><td>2028–2029</td><td>Plant waves 2–3; Supplier A units retired at end of life</td><td>Network KPIs on the shared WES dashboard</td></tr>
