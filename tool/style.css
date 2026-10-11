@@ -1,0 +1,35 @@
+@page { size: Letter; margin: 16mm 14mm 16mm 14mm; }
+:root { --ink:#1b2430; --muted:#5b6675; --line:#d7dde5; --navy:#1f3a5f; --pass:#1e7b4f; --fail:#b42318; --cond:#b54708; --bg2:#f4f6f9; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; color: var(--ink); font-size: 9.6pt; line-height: 1.42; margin: 0; }
+h1 { font-size: 20pt; color: var(--navy); margin: 0 0 4px; line-height: 1.15; }
+h2 { font-size: 13pt; color: var(--navy); border-bottom: 2px solid var(--navy); padding-bottom: 3px; margin: 18px 0 8px; break-after: avoid; }
+h3 { font-size: 10.5pt; margin: 12px 0 5px; break-after: avoid; }
+p { margin: 4px 0 7px; }
+.sub { color: var(--muted); font-size: 10pt; margin-bottom: 10px; }
+.meta { color: var(--muted); font-size: 8.5pt; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 8.6pt; break-inside: auto; }
+th { background: var(--navy); color: #fff; text-align: left; padding: 4px 5px; font-weight: 600; }
+td { border-bottom: 1px solid var(--line); padding: 3.5px 5px; vertical-align: top; }
+tr { break-inside: avoid; }
+tr:nth-child(even) td { background: var(--bg2); }
+.num { text-align: right; white-space: nowrap; }
+.b { display: inline-block; padding: 0 5px; border-radius: 3px; font-size: 7.8pt; font-weight: 700; color: #fff; white-space: nowrap; }
+.PASS, .pass, .verified { background: var(--pass); }
+.FAIL, .fail { background: var(--fail); }
+.CONDITIONAL, .claimed { background: var(--cond); }
+.unverified { background: #7a8594; }
+.box { border: 1px solid var(--line); border-left: 4px solid var(--navy); background: var(--bg2); padding: 8px 11px; margin: 8px 0 10px; break-inside: avoid; }
+.box.warn { border-left-color: var(--cond); }
+.box.red { border-left-color: var(--fail); }
+.kpis { display: flex; gap: 8px; margin: 8px 0 10px; }
+.kpi { flex: 1; border: 1px solid var(--line); padding: 7px 9px; border-radius: 4px; }
+.kpi .v { font-size: 15pt; font-weight: 700; color: var(--navy); }
+.kpi .l { font-size: 8pt; color: var(--muted); }
+ul, ol { margin: 4px 0 8px 18px; padding: 0; }
+li { margin: 2px 0; }
+.pb { break-before: page; }
+.small { font-size: 8pt; color: var(--muted); }
+.src { font-size: 7.6pt; color: var(--muted); word-break: break-all; }
+.cols { display: flex; gap: 14px; } .cols > div { flex: 1; }
+svg text { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
