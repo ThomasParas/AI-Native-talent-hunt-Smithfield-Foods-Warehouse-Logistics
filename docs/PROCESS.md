@@ -65,3 +65,6 @@ All times PDT.
 4. **Secrets:** no keys used anywhere in this project; scans of the repo, git history and zip contents are clean. `.env` is gitignored.
 5. Killed the hung background shell **before** touching its directory; nothing was deleted while a job wrote to it.
 6. Packaged with `package.sh`; extra uploads `dist/PROCESS.md` and `dist/repo-link.txt`.
+
+## 14:27 — Second, substance-level red team (requested by Thomas)
+- Launched a red-team sub-agent with a different brief from the first reviewer: attack the substance as a WH Group ops VP, rival consultant or cold-chain engineer would. Angles: a missed single-supplier candidate, whether VisionNav is the right pick, engineering realism (9 pal/h at 10.46 m, airlock retrofits, -25 °C), CFO questions, US-China governance, and first-2-minute judge impressions. Allowed up to 3 web spot-checks of load-bearing facts.
