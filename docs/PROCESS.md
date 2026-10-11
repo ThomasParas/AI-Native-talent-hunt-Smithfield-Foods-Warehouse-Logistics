@@ -87,4 +87,4 @@ All times PDT.
 
 ## 14:41 — Submission package frozen
 - Final `dist/`: `Smithfield_logistics_package.zip` (2 PDFs at root + XLSX + README + tool + docs), `PROCESS.md`, `repo-link.txt`.
-- AI usage summary: 6 sub-agents total (3 parallel web research, 1 consistency reviewer, 1 substance red team, plus spot-checks by the main agent); main agent built the scoring tool, payback model, renderers, packaging and verification. Human decisions: architecture choice (O5), supplier set (3 extra), declining AI imagery, applying both review rounds, scope stop at 14:41 to protect the buffer.
+- AI usage summary: 5 sub-agents total (3 parallel web research, 1 consistency reviewer, 1 substance red team); fact spot-checks by the main agent; main agent built the scoring tool, payback model, renderers, packaging and verification. Human decisions: architecture choice (O5), supplier set (3 extra), declining AI imagery, applying both review rounds, scope stop at 14:41 to protect the buffer.
