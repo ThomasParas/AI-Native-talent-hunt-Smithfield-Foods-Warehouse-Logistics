@@ -20,3 +20,10 @@ All times PDT.
 - 10-K FY2025: 38 US processing facilities, 5 DCs (brief says 36 + 4 — scope is a subset; we use the brief's numbers).
 - New flagship plant = Sioux Falls, SD (announced 2026-02-16, up to $1.3B, ~1.1M sq ft, Epstein design-build, production end-2028). No public warehouse/cold-store design → the design window is open, matches the brief.
 - Messaging: Smithfield frames automation as *redeploying* labour, safety, higher-skill roles — we adopt that framing.
+
+## 14:03 — Supplier research back (sub-agents 2 & 3; notes in docs/research/)
+- Key AI finding: no Chinese supplier *publicly verifies* all DC gates (≥1,134 kg at 10.5 m + -18 °C + cross-zone + UL 3100/B56.5). Closest mobile: VisionNav VNR20 (11.2 m mast, US entity; residual & cold unverified) and Multiway R-series (-30 °C + temp-switching claim, but 9.5 m / 750 kg at height).
+- Storage-layer candidates for the greenfield: Inform (SSE 603066; -25 °C pallet four-way shuttle, stacker cranes, AGV/RGV, Thailand plant for US market) and BZKJ (turnkey -25 °C poultry store).
+- Compliance red flag surfaced: Hikrobot is a Hikvision subsidiary (US Entity List / FCC Covered List) → excluded on governance grounds.
+- Shuanghui (WH Group China) Mianyang -18 °C high-bay store used imported (likely European) cranes — no Chinese reference inside the group.
+- Built tool/criteria.yaml (6 knock-out gates per scenario + 15 weighted criteria, evidence multipliers verified 1.0 / claimed 0.7 / unverified 0) and tool/score.py (JSON + live-formula XLSX).
