@@ -10,9 +10,10 @@ gates:
   G1: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Fixed AS/RS: height set by rack/crane design (Shuanghui Mianyang benchmark 24 m). Crane max height not published. Retrofit requires replacing racks in operating buildings."}
   G2: {PLANT: pass, DC: pass, NEW: pass, note: "Pallet four-way shuttle published at 1.0 / 1.5 / 2.0 t classes (select 1.5 t class: covers 1,134 kg DC and 1,500 kg plant pallets)."}
   G3: {PLANT: pass, DC: pass, NEW: pass, note: "Shuttle rated -25 °C to +45 °C (official page)."}
-  G4: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Fixed systems stay inside one zone; cross-zone flow by conveyor through airlocks (design, not vehicle capability)."}
+  G4: {PLANT: n/a, DC: n/a, NEW: n/a, note: "Fixed systems stay inside one zone; cross-zone flow by conveyor through airlocks (design, not vehicle capability)."}
   G5: {PLANT: unverified, DC: unverified, NEW: unverified, note: "40×48 in GMA grid-base pallet compatibility with shuttle rails/conveyors to be tested (China norm is 1200×1000)."}
   G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "No UL / NRTL listing, ANSI MH16.1 racking, or NEC-compliant install base found."}
+  G7: {PLANT: fail, DC: fail, NEW: n/a, note: "AS/RS / four-way shuttle requires new racking (often rack-supported) in a vacated area — not compatible with operating brownfield sites without major disruption."}
 scores:
   T1: {score: 4, evidence: claimed, note: "-25 °C, up to 2 t shuttle; high-bay cranes. Best fit for greenfield density."}
   T2: {score: 4, evidence: claimed, note: "Crane + multi-shuttle throughput scales by aisle/shuttle count; DC1-scale figures to be simulated."}

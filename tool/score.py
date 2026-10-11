@@ -17,7 +17,7 @@ assert sum(c["w"] for c in CRITERIA) == 100, "weights must sum to 100"
 
 
 def gate_status(sup, scen):
-    """FAIL if any gate fails, CONDITIONAL if any unverified, else PASS."""
+    """FAIL if any gate fails, CONDITIONAL if any unverified/claimed, else PASS (n/a = met by design)."""
     vals = [g.get(scen, "unverified") for g in sup["gates"].values()]
     if "fail" in vals:
         return "FAIL"

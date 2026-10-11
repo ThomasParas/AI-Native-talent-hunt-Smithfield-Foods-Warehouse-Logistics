@@ -14,6 +14,7 @@ gates:
   G4: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Only supplier found claiming 'high and low-temperature switching'."}
   G5: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Standard pallet handling; GMA grid-base test to be witnessed."}
   G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "No UL 3100 / B56.5 listing found; CE unverified."}
+  G7: {PLANT: claimed, DC: fail, NEW: n/a, note: "Plants: R-series runs in existing selective racks (claimed). DCs: 10.5 m only via K16 VNA, which needs new narrow aisles + guidance = rebuild of racking."}
 scores:
   T1: {score: 2, evidence: verified, note: "Covers 8.5 m plant envelope with cold claim; fails DC 10.5 m @ 1,134 kg."}
   T2: {score: 3, evidence: claimed, note: "1.5–2 m/s; cycle times at height not published."}
@@ -22,7 +23,7 @@ scores:
   T5: {score: 0, evidence: unverified, note: "Integration interfaces not found."}
   T6: {score: 4, evidence: claimed, note: "LFP 48 V / 450 Ah, 8–10 h, auto-charging; -30 °C claim."}
   T7: {score: 0, evidence: unverified, note: "Not published."}
-  C1: {score: 3, evidence: claimed, note: "Plant-scale payback similar to VisionNav if priced comparably; cannot serve DCs."}
+  C1: {score: 0, evidence: unverified, note: "No price received; cannot serve DCs. Plant payback modelled per site (see solution)."}
   C2: {score: 3, evidence: claimed, note: "Atlanta office; 'subsidiaries including the United States'."}
   C3: {score: 3, evidence: claimed, note: "700–1,000+ clients claimed (unaudited)."}
   C4: {score: 0, evidence: unverified, note: "Funding / financials not found."}

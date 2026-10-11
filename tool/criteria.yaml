@@ -42,6 +42,10 @@ gates:
   - id: G6
     name: North American safety compliance
     test: "ANSI/ITSDF B56.5 (driverless trucks), UL 3100 or UL 583 listing via NRTL, OSHA 1910.178 compatible; or a dated certification plan"
+  - id: G7
+    name: Brownfield compatibility
+    test: "Works with existing selective racks, aisles, floors and doors while the site keeps operating (retrofit scenarios only; N/A for greenfield)"
+# Gate values: pass | fail | claimed | unverified | n/a (requirement met by design, not by the equipment — note must say how)
 
 # ---------------------------------------------------------------------------------
 # 2) WEIGHTED CRITERIA — scored 0–5, multiplied by evidence multiplier, weighted.

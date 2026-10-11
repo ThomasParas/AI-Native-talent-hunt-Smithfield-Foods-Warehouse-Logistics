@@ -10,9 +10,10 @@ gates:
   G4: {PLANT: fail, DC: fail, NEW: fail, note: "Brief: cannot work across temperature zones; mixed chilled/frozen truckloads cannot be handled."}
   G5: {PLANT: pass, DC: pass, NEW: pass, note: "Moves 40×48 in grid-base pallets in both pilots (Smithfield-observed)."}
   G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "No UL 3100 / B56.5 information provided."}
+  G7: {PLANT: pass, DC: pass, NEW: n/a, note: "Operates in existing DC1 and Plant 1 layouts (horizontal lanes) without rack changes."}
 scores:
   T1: {score: 1, evidence: verified, note: "4 m lift, no freezer, no cross-zone; in practice horizontal transport only."}
-  T2: {score: 1, evidence: verified, note: "DC1: 4.5 pal/h/unit horizontal only (6.2 expected with clear routes). Plant 1: '21 pal/h/unit' is inconsistent with a 288.6 m route (≥3.4 m/s average implied even with zero handling time) — needs time study."}
+  T2: {score: 1, evidence: verified, note: "DC1: 4.5 pal/h/unit horizontal only (6.2 expected with clear routes). Plant 1: '21 pal/h/unit' is inconsistent with a 288.6 m route (≈171 s cycle: ≥3.4 m/s if 288.6 m is one-way, 1.7–2.6 m/s if round trip; laden AGVs typically run 1–1.5 m/s) — needs time study."}
   T3: {score: 2, evidence: verified, note: "DC1: frequent slow-downs/obstacle stops in mixed traffic; Plant 1 (segregated route): stable for 6 months."}
   T4: {score: 1, evidence: claimed, note: "Only horizontal AGV and a 4 m reach-type stacker evidenced; no freezer or high-reach line."}
   T5: {score: 2, evidence: verified, note: "No automatic task dispatch/feedback with Accellos (partly Smithfield-side: read-only WMS access). API / VDA 5050 support unverified."}

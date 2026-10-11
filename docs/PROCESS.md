@@ -49,3 +49,19 @@ All times PDT.
 
 ## 14:14 — Verification caught an XLSX bug
 - Inspecting `supplier_scorecard.xlsx` showed data rows shifted by one (openpyxl `ws.cell()` lookups created cells before `append`), so formula totals summed blanks. Fixed with `get_column_letter`; recalculated the workbook with an independent formula engine (`formulas` lib): totals 14.62 / 34.30 / 29.76 / 35.36 = identical to score.py.
+
+## 14:16–14:19 — Applied the skeptical-judge review (12 findings, all addressed)
+- **Numbers got worse and we said so.** Costing the new dock-sort step (2.4 FTE) moved DC1 payback from 2.73 to **3.02 yrs** (2.73 if the sort is absorbed into the existing dock-to-staging move). Rather than tune assumptions, the plan now turns the model into **award gates**: DDP ≤ $184k/AGV and ≥ 9.2 pal/h at height proven in pilot. Added outbound-ratio sensitivity, a combined adverse case (5.45 yrs), the 6.2 pal/h observed-rate case (4.21 yrs) and a bottom-up cycle-time basis for 9 pal/h.
+- **Plants (90 % of sites) now modelled** by archetype: Plant 1-type horizontal lanes 5.1 yrs (don't buy; redeploy Supplier A surplus at zero capex), freezer store 40 moves/h 3.4 yrs, 80 moves/h 2.5 yrs → qualification rule **≥ 52 moves/h**.
+- Tool fixes: new **G7 brownfield-compatibility gate** (Inform now FAILs retrofits, consistent with the solution), **N/A-by-design** gate status (cross-zone handled by zone-dedicated fleets), VisionNav T1 3→2 and C1 → unverified (no price received; was circular), Multiway C1 → unverified.
+- Added automation map (DC1 touches automated: ≈1/8 today → 4/8 phase 1 → 8/8 phase 2), indicative O1 vs O2 new-plant capex/footprint/envelope table (crane count corrected to ≈12–15, sized by throughput), explicit labelling of public-source facts and the Sioux Falls identification as an assumption, unified Plant 1 speed basis (one-way vs round-trip), Plant 1 ≥5 m building-height caveat, roadmap re-ordered with NRTL gate.
+- Scores now: Supplier A 14.6 · VisionNav 28.7 · Multiway 25.6 · Inform 35.4 (storage role only; FAIL on retrofits).
+- Declined: AI-generated imagery (Thomas asked about Nano Banana). Reason: generated pictures of equipment in a sourcing document could be mistaken for real supplier hardware; code-drawn diagrams + tables carry the evidence instead.
+
+## 14:25 — Final verification (delivery checklist)
+1. **Brief re-read vs artifacts** (scripted text check on both PDFs, NFKC-normalised): reusable tool ✓, technical + commercial + risk criteria ✓, Supplier A + 3 traceable suppliers with URLs ✓, per-supplier compliance + gaps ✓, Supplier A omissions marked UNVERIFIED ✓, retrofit + new-plant solutions ✓, single-supplier tested first ✓, combination + how combined ✓, new-plant basis + trade-offs ✓. Zip name exact; both PDFs at the zip root.
+2. **Real run, repeated:** the pipeline is deterministic (no LLM calls at build time); three independent rebuilds produced identical scores/payback. README numbers match the recorded run (DC1 3.02 yrs; scores 14.6 / 28.7 / 25.6 / 35.4).
+3. **Fresh-unzip test:** unzipped to a clean dir and ran `build.sh` → exit 0, identical `payback.json`, both PDFs regenerated. (An interactive `cd` into the scratch dir hung because of a local zsh hook; build.sh runs under bash and is unaffected.)
+4. **Secrets:** no keys used anywhere in this project; scans of the repo, git history and zip contents are clean. `.env` is gitignored.
+5. Killed the hung background shell **before** touching its directory; nothing was deleted while a job wrote to it.
+6. Packaged with `package.sh`; extra uploads `dist/PROCESS.md` and `dist/repo-link.txt`.

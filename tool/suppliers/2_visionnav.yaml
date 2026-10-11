@@ -11,18 +11,19 @@ gates:
   G1: {PLANT: pass, DC: pass, NEW: pass, note: "VNR20 official mast options 8,300 / 9,200 / 10,200 / 11,200 mm (11.2 m ≥ 10.46 m top beam)."}
   G2: {PLANT: unverified, DC: unverified, NEW: unverified, note: "2,000 kg rated at standard 7 m mast; residual at 8.5/10.5 m NOT published ('taller masts may reduce capacity'). Need load chart for 1,134 kg @10.46 m (DCs) and 1,500 kg @8.5 m (plants)."}
   G3: {PLANT: unverified, DC: unverified, NEW: unverified, note: "Optional battery-heating module listed; no published -18 °C rating for VNR20 (a -25 °C claim exists only on a reseller page for VNQ50)."}
-  G4: {PLANT: unverified, DC: unverified, NEW: claimed, note: "No cross-zone evidence. New plant designed so vehicles never cross zones (airlock conveyor hand-off), removing the requirement."}
+  G4: {PLANT: n/a, DC: n/a, NEW: n/a, note: "N/A by design: zone-dedicated fleets + airlock conveyor hand-off in every scenario, so no vehicle crosses zones. No vehicle-level cross-zone evidence found (kept as an RFQ preference)."}
   G5: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Pallet-pocket detection by vision marketed; 40×48 GMA test to be witnessed."}
   G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "UL 3100 named only as a 2023 SGS certification target; no listing number found."}
+  G7: {PLANT: claimed, DC: claimed, NEW: n/a, note: "Reach AGVs work in existing selective racking with natural-feature navigation (no reflectors/wires); aisle width and floor flatness to be surveyed per site."}
 scores:
-  T1: {score: 3, evidence: claimed, note: "Only Chinese reach AGV with official >10.5 m mast; 2 t base. Residual and freezer rating unpublished."}
+  T1: {score: 2, evidence: claimed, note: "Only Chinese reach AGV with official >10.5 m mast; 2 t base. Residual and freezer rating unpublished."}
   T2: {score: 3, evidence: claimed, note: "2.0 m/s travel; dock-to-rack cycle at 10.5 m not published — require vendor simulation of DC1 (61 pal/h in)."}
   T3: {score: 4, evidence: claimed, note: "Vision/3D-SLAM, reflector-free navigation suited to brownfield mixed traffic."}
   T4: {score: 4, evidence: claimed, note: "Pallet trucks, stackers, counterbalance, reach, tow tractors + fleet software → one mobile fleet for all scenarios."}
   T5: {score: 3, evidence: claimed, note: "Own fleet manager; VDA 5050 / WMS adapters to be confirmed."}
   T6: {score: 3, evidence: claimed, note: "Li-ion with optional battery-heating module; freezer duty-cycle data needed."}
   T7: {score: 0, evidence: unverified, note: "IP rating / washdown not published."}
-  C1: {score: 3, evidence: claimed, note: "Modelled DC1 end-to-end payback ≈2.7 yrs base case (2.2–3.4 sensitivity) (see logistics_solution.pdf); depends on landed price & tariffs."}
+  C1: {score: 0, evidence: unverified, note: "No price received. Our model (assumed $185k/AGV) gives DC1 ≈3.0 yrs, i.e. at the threshold; award requires DDP price ≤ break-even and ≥9.2 pal/h proven in pilot."}
   C2: {score: 3, evidence: claimed, note: "US subsidiary in Georgia; US after-sales hiring seen. Depot/SLA to be contracted."}
   C3: {score: 3, evidence: claimed, note: ">1,500 vehicles, 350+ projects (2022 company claim)."}
   C4: {score: 3, evidence: claimed, note: "VC-funded (Meituan-led C+), unlisted — request audited financials, parent guarantee/escrow."}

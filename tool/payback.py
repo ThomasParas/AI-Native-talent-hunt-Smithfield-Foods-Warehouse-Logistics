@@ -26,6 +26,7 @@ BASE = {
     "fte_per_position": 2.4,          # 2 shifts x 1.2 coverage (6-day ops, relief, absence)
     "loaded_cost_usd": 68_000,        # per FTE/yr, wage + burden
     "retained_fte": 2.4,              # one AGV supervisor / exception handler per shift
+    "dock_sort_fte": 2.4,             # new manual step: split mixed chilled/frozen trucks at receiving (1 per shift)
     "truck_cost_usd": 18_000,         # per avoided reach truck/yr (lease, maintenance, battery)
     "damage_savings_usd": 50_000,     # rack/product damage avoided per year
 }
@@ -36,6 +37,22 @@ SENSITIVITY = {
     "loaded_cost_usd": (78_000, 58_000),
     "manual_pal_h": (10.0, 14.0),
     "integration_usd": (800_000, 1_600_000),
+    "outbound_ratio": (1.0, 0.5),     # brief gives inbound only; outbound scope may be partial
+}
+# Combined adverse case: several assumptions go wrong together
+ADVERSE = {"agv_landed_usd": 240_000, "agv_pal_h": 7.0, "outbound_ratio": 0.5}
+
+# Plant archetypes (A): same model, plant-scale inputs. Plant 1 = brief data (400 pal/day over 16.5 h ≈ 24 pal/h).
+PLANTS = {
+    "Plant 1 as-is (24 pal/h, horizontal, ambient)": {"inbound_pal_h": 24.2, "outbound_ratio": 0.0, "chilled_share": 1.0,
+        "agv_pal_h": 8.0, "manual_pal_h": 20.0, "agv_landed_usd": 90_000, "integration_usd": 400_000,
+        "retained_fte": 0.0, "dock_sort_fte": 0.0, "fte_per_position": 2.0, "truck_cost_usd": 12_000, "damage_savings_usd": 10_000},
+    "Plant, freezer store 8.5 m (40 moves/h, in+out)": {"inbound_pal_h": 20.0, "outbound_ratio": 1.0, "chilled_share": 0.0,
+        "agv_pal_h": 10.0, "agv_landed_usd": 170_000, "integration_usd": 600_000, "retained_fte": 2.0, "dock_sort_fte": 0.0,
+        "fte_per_position": 2.0, "damage_savings_usd": 20_000},
+    "Plant, freezer store 8.5 m (80 moves/h, in+out)": {"inbound_pal_h": 40.0, "outbound_ratio": 1.0, "chilled_share": 0.0,
+        "agv_pal_h": 10.0, "agv_landed_usd": 170_000, "integration_usd": 700_000, "retained_fte": 2.0, "dock_sort_fte": 0.0,
+        "fte_per_position": 2.0, "damage_savings_usd": 30_000},
 }
 
 
@@ -45,7 +62,7 @@ def model(p):
     # zone-dedicated fleets: vehicles never cross zones (airlock conveyor hand-off)
     fleet = sum(math.ceil(m / p["agv_pal_h"] * p["availability_buffer"]) for m in (chilled, frozen))
     positions = chilled / p["manual_pal_h"] + frozen / (p["manual_pal_h"] * p["freezer_productivity"])
-    fte_saved = positions * p["fte_per_position"] - p["retained_fte"]
+    fte_saved = positions * p["fte_per_position"] - p["retained_fte"] - p["dock_sort_fte"]
     trucks = math.ceil(positions * 1.1)
     veh_capex = fleet * p["agv_landed_usd"]
     capex = (veh_capex + p["integration_usd"]) * (1 + p["project_pct"])
@@ -97,7 +114,16 @@ if __name__ == "__main__":
     for k, (good, bad) in SENSITIVITY.items():
         lo, hi = model(BASE | {k: good})["payback_yrs"], model(BASE | {k: bad})["payback_yrs"]
         sens.append({"param": k, "good": good, "bad": bad, "payback_good": lo, "payback_bad": hi})
-    out = {"inputs": BASE, "base": base, "sensitivity": sens,
+    adverse = model(BASE | ADVERSE)
+    be_rate = next(r / 10 for r in range(40, 200) if model(BASE | {"agv_pal_h": r / 10})["payback_yrs"] < 3.0)
+    plants = {name: model(BASE | ov) for name, ov in PLANTS.items()}
+    # break-even plant volume: freezer-store archetype, smallest in+out moves/h with payback < 3 yrs
+    fz = PLANTS["Plant, freezer store 8.5 m (80 moves/h, in+out)"]
+    be_plant = next(v for v in range(10, 400, 2) if model(BASE | fz | {"inbound_pal_h": v / 2})["payback_yrs"] < 3.0)
+    out = {"inputs": BASE, "base": base, "sensitivity": sens, "adverse": adverse,
+           "sort_absorbed": model(BASE | {"dock_sort_fte": 0.0}),
+           "at_observed_6_2": model(BASE | {"agv_pal_h": 6.2}), "adverse_inputs": ADVERSE,
+           "breakeven_agv_pal_h": be_rate, "plants": plants, "breakeven_plant_moves_h": be_plant,
            "supplier_a": supplier_a_check(), "plant1": plant1_check()}
     Path("build").mkdir(exist_ok=True)
     Path("build/payback.json").write_text(json.dumps(out, indent=1))

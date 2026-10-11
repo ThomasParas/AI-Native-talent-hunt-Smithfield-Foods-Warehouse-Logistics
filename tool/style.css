@@ -19,6 +19,7 @@ tr:nth-child(even) td { background: var(--bg2); }
 .FAIL, .fail { background: var(--fail); }
 .CONDITIONAL, .claimed { background: var(--cond); }
 .unverified { background: #7a8594; }
+.na { background: #3b6ea8; }
 .box { border: 1px solid var(--line); border-left: 4px solid var(--navy); background: var(--bg2); padding: 8px 11px; margin: 8px 0 10px; break-inside: avoid; }
 .box.warn { border-left-color: var(--cond); }
 .box.red { border-left-color: var(--fail); }

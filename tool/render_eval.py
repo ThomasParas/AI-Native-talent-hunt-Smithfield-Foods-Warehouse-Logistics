@@ -9,19 +9,19 @@ C, R = D["criteria"], D["results"]
 SUPS = {s["short"]: s for s in (__import__("yaml").safe_load(p.read_text()) for p in sorted((ROOT / "suppliers").glob("*.yaml")))}
 ROLE = {
     "Supplier A": "Legacy: keep existing units on ambient horizontal lanes only; no new orders",
-    "VisionNav": "Recommended mobile layer (all 41 sites + new plant), award gated on witnessed test",
+    "VisionNav": "Recommended mobile layer (DCs, qualifying plants, new plant); award gated on witnessed tests, price cap and pilot throughput",
     "Multiway": "Qualified second source for 8.5 m plants; excluded at DCs (load at height)",
     "Inform": "Recommended storage layer for the new plant (-25 °C AS/RS); not for brownfield retrofit",
 }
 
 
-SHORT = {"pass": "PASS", "fail": "FAIL", "claimed": "CLM", "unverified": "UNV"}
+SHORT = {"pass": "PASS", "fail": "FAIL", "claimed": "CLM", "unverified": "UNV", "n/a": "N/A"}
 
 
 def badge(v, short=False):
     v = str(v)
     label = SHORT.get(v, v.upper()) if short else v.upper()
-    return f'<span class="b {e(v)}">{e(label)}</span>'
+    return f'<span class="b {e(v.replace("/", ""))}">{e(label)}</span>'
 
 
 def criteria_table():
@@ -100,9 +100,9 @@ html = f"""<!doctype html><html><head><meta charset="utf-8"><title>Supplier Eval
 <div class="sub">Material-handling automation for Smithfield Foods North America — 36 plants, 4 DCs, new flagship plant (Sioux Falls, SD)</div>
 <div class="meta">Global Solution Manager, China sourcing · 2026-10-11 · Companion: <code>supplier_scorecard.xlsx</code> (live formulas) and <code>tool/criteria.yaml</code> + <code>tool/score.py</code> (re-score any supplier)</div>
 
-<div class="box"><b>Result.</b> Supplier A fails four of six knock-out gates in every scenario (4 m lift, no 1 t at height, no -18 °C, no cross-zone) and cannot serve the network.
+<div class="box"><b>Result.</b> Supplier A fails four of seven knock-out gates in every scenario (4 m lift, no 1 t at height, no -18 °C, no cross-zone) and cannot serve the network.
 No Chinese supplier publicly proves all DC gates; <b>VisionNav</b> is the only mobile candidate that is not excluded anywhere (CONDITIONAL on load-at-height, freezer and UL proof),
-<b>Multiway</b> fails the DC gate on load at height (published 700–750 kg at 9.5–11 m), and <b>Inform</b> is the strongest storage-system candidate for the greenfield plant.
+<b>Multiway</b> fails the DC gate on load at height (published 700–750 kg at 9.5–11 m), and <b>Inform</b> is the strongest storage-system candidate for the greenfield plant but FAILS brownfield compatibility (G7) at existing sites.
 Scores are deliberately conservative: unverified evidence scores zero, so each supplier's gap to 100 is its RFQ work list.</div>
 
 <h2>1. How to use this tool (reusable for any supplier)</h2>
@@ -125,10 +125,10 @@ Scores are deliberately conservative: unverified evidence scores zero, so each s
 {criteria_table()}
 <p class="small">Weight rationale: technical fit 46 (the pilot failed on capability), commercial 35 (payback &lt;3 yrs is the group roll-out standard; North American service decides uptime across 41 sites), risk &amp; governance 19 (US tariffs on China-made industrial trucks, cybersecurity of connected fleet software, enforceable guarantees). Hikrobot was screened out before scoring: it is a Hikvision subsidiary, and Hikvision is on the US Entity List / FCC Covered List.</p>
 
-<h2 class="pb">5. Results: Supplier A + three independently traceable candidates</h2>
+<h2>5. Results: Supplier A + three independently traceable candidates</h2>
 {summary_table()}
 <h3>Gate matrix (each cell: Plants · DCs · New plant)</h3>
-<p class="small">Legend: PASS = verified on official source · FAIL = evidence shows non-compliance · CLM = claimed (vendor/trade press, not yet proven) · UNV = unverified / not provided.</p>
+<p class="small">Legend: PASS = verified on official source · FAIL = evidence shows non-compliance · CLM = claimed (vendor/trade press, not yet proven) · UNV = unverified / not provided · N/A = requirement met by the solution design (e.g. zone-dedicated fleets), not by the equipment.</p>
 {gate_matrix()}
 <div class="box warn"><b>Reading the scores.</b> Totals are low because the public record is thin, not because the suppliers are weak: risk-adjusted points are only earned with evidence.
 "Evidence-only score" ignores the multiplier for claimed data (but still zeroes unverified items) to show upside if claims hold. Supplier A is scored only on what Smithfield's project document states;
