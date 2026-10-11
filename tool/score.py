@@ -21,7 +21,7 @@ def gate_status(sup, scen):
     vals = [g.get(scen, "unverified") for g in sup["gates"].values()]
     if "fail" in vals:
         return "FAIL"
-    if "unverified" in vals:
+    if "unverified" in vals or "claimed" in vals:
         return "CONDITIONAL"
     return "PASS"
 

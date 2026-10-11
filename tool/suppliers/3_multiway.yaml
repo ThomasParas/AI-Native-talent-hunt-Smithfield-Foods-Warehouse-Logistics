@@ -1,0 +1,32 @@
+name: "Multiway Robotics (Shenzhen) — R-series reach AGVs, K-series VNA, cold-chain counterbalance"
+short: "Multiway"
+profile: "Shenzhen autonomous forklift maker (LiDAR SLAM). Claims 700–1,000+ enterprise clients in 40+ countries; US office in Atlanta. Funding not verified."
+sources:
+  - "R16 page (750 kg at 9.5 m): https://www.mw-r.com/reach-truck/20"
+  - "R-series brochure (-30 °C, temperature switching): https://logicbus.com.mx/pdf/328/Reach-Truck-R-Series.pdf"
+  - "MW-K VNA up to 16.5 m: https://www.mw-r.com/company-news/55"
+  - "-25 °C counterbalanced launch (ProMat 2025): https://www.newsfilecorp.com/release/253175/Multiway-Robotics-Launches-ESeries-Counterbalanced-AGV-Forklifts-at-LogiMAT-and-PROMAT-Exhibitions"
+  - "Company / Atlanta office: https://www.mw-r.com/"
+gates:
+  G1: {PLANT: pass, DC: claimed, NEW: pass, note: "R14/R16 9.0 m, R20 9.5 m (≥8.5 m plants). DCs only via MW-K16 VNA (11 m std), which needs wire/rail-guided VNA aisles — not the existing DC racking."}
+  G2: {PLANT: unverified, DC: fail, NEW: unverified, note: "Published: R16 750 kg at 9.5 m; K16 700 kg at max lift — below 1,134 kg max pallet. Residual at 8.5 m for R20 not published."}
+  G3: {PLANT: claimed, DC: claimed, NEW: claimed, note: "R-series brochure: operation down to -30 °C."}
+  G4: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Only supplier found claiming 'high and low-temperature switching'."}
+  G5: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Standard pallet handling; GMA grid-base test to be witnessed."}
+  G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "No UL 3100 / B56.5 listing found; CE unverified."}
+scores:
+  T1: {score: 2, evidence: verified, note: "Covers 8.5 m plant envelope with cold claim; fails DC 10.5 m @ 1,134 kg."}
+  T2: {score: 3, evidence: claimed, note: "1.5–2 m/s; cycle times at height not published."}
+  T3: {score: 4, evidence: claimed, note: "LiDAR SLAM, reflector optional."}
+  T4: {score: 4, evidence: claimed, note: "Pallet, counterbalance, reach, VNA, -25/-30 °C variants."}
+  T5: {score: 0, evidence: unverified, note: "Integration interfaces not found."}
+  T6: {score: 4, evidence: claimed, note: "LFP 48 V / 450 Ah, 8–10 h, auto-charging; -30 °C claim."}
+  T7: {score: 0, evidence: unverified, note: "Not published."}
+  C1: {score: 3, evidence: claimed, note: "Plant-scale payback similar to VisionNav if priced comparably; cannot serve DCs."}
+  C2: {score: 3, evidence: claimed, note: "Atlanta office; 'subsidiaries including the United States'."}
+  C3: {score: 3, evidence: claimed, note: "700–1,000+ clients claimed (unaudited)."}
+  C4: {score: 0, evidence: unverified, note: "Funding / financials not found."}
+  C5: {score: 2, evidence: claimed, note: "Cold-chain product launches; no named NA meat reference found."}
+  R1: {score: 1, evidence: claimed, note: "China-made: full US tariff exposure."}
+  R2: {score: 0, evidence: unverified, note: "Not documented."}
+  R3: {score: 0, evidence: unverified, note: "To be negotiated."}

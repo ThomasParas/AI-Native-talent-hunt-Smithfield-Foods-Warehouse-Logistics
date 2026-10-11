@@ -13,7 +13,7 @@ All times PDT.
 ## 13:58 — First read of the site data (AI analysis, to be verified in the build)
 - DC1: Supplier A does *horizontal-only* moves (dock staging → aisle P&D) in the chilled zone; reach trucks still do every putaway. So the AGV removes only the cheapest leg of the move — root cause of the 3.9-yr payback, not just traffic/WMS issues.
 - DC1 fleet math: 10 AGVs × 4.5 pal/h = 45 pal/h vs chilled inbound 36 pal/h → ~80 % utilisation even before any freezer/outbound scope.
-- Plant 1 inconsistency: 7 AGVs × 21 pal/h/unit = 147 pal/h vs demand 400 pal/day ÷ 16.5 h ≈ 24 pal/h (~16 % utilisation). 21 pal/h/unit over a 288.6 m route implies ~3.5 m/s average — implausible for a laden forklift AGV. Either 21 pal/h is the *fleet* rate (then capacity ≈ 346 pal/day < 400 demand) or the figure is wrong. Flag as "needs time study"; do not build ROI on it.
+- Plant 1 inconsistency: 7 AGVs × 21 pal/h/unit = 147 pal/h vs demand 400 pal/day ÷ 16.5 h ≈ 24 pal/h (~16 % utilisation). 21 pal/h/unit over a 288.6 m route implies ≥3.4 m/s average even with zero pick/drop time (5.2 m/s with 60 s handling) — implausible for a laden forklift AGV. Either 21 pal/h is the *fleet* rate (then capacity ≈ 346 pal/day < 400 demand) or the figure is wrong. Flag as "needs time study"; do not build ROI on it.
 
 ## 13:59 — Partner research back (sub-agent 1, web; sources in docs/research/partner.md)
 - Smithfield already runs a fully automated cold DC: Olathe, KS, built/operated with Lineage (18 AS/RS cranes, 62k pallet positions, opened 2022). → Do NOT pitch "an automated cold DC" generically; the brief's 4 DCs to upgrade are plausibly the other DCs (10-K lists 5 DCs: IN, KS, MD, NE, NC; one 3PL-operated).
@@ -27,3 +27,14 @@ All times PDT.
 - Compliance red flag surfaced: Hikrobot is a Hikvision subsidiary (US Entity List / FCC Covered List) → excluded on governance grounds.
 - Shuanghui (WH Group China) Mianyang -18 °C high-bay store used imported (likely European) cranes — no Chinese reference inside the group.
 - Built tool/criteria.yaml (6 knock-out gates per scenario + 15 weighted criteria, evidence multipliers verified 1.0 / claimed 0.7 / unverified 0) and tool/score.py (JSON + live-formula XLSX).
+
+## 14:05 — Decision (Thomas)
+- Presented 6 options (A-expand, VisionNav-only, Multiway-only, Inform-only, move/store split, non-Chinese benchmark) with criteria: gate fit, payback <3 yr, single-supplier preference, evidence strength, US deployability risk. Two finalists pitched with risks.
+- **Thomas chose O5**: VisionNav = single mobile-robot layer for all 41 sites + new plant; Inform = automated storage layer for the new plant; neutral WES/VDA 5050 integration layer; Multiway as qualified second source for plants. Path to single-supplier (mobile) kept via witnessed-test gate.
+- Score Supplier A + VisionNav + Multiway + Inform (3 extra, brief minimum is 2).
+
+## 14:07 — Scoring + payback model run (tool/score.py, tool/payback.py)
+- Risk-adjusted scores (/100): Supplier A 14.6 (FAIL all scenarios), VisionNav 34.3, Multiway 29.8 (FAIL at DCs on load-at-height), Inform 35.4. Scores look low by design: unverified = 0 and claimed = ×0.7, so the gap to 100 is the RFQ work list.
+- DC1 end-to-end payback (17 zone-dedicated high-reach AGVs, 122 moves/h): base 2.73 yrs; sensitivity 2.2–3.4 yrs. Break-even landed price ≈ $210k/AGV for <3 yrs → becomes a negotiation ceiling.
+- Supplier A back-solve: horizontal-only chilled scope replaces ~1.8 positions (~$294k/yr) → 3.9-yr payback implies ~$1.15M all-in. Even at 6.2 pal/h the savings pool is capped → structural, not operational.
+- Plant 1: demand 24 pal/h vs stated 147 pal/h capacity (16 % util.) → ~4 units suffice; redeploy 3 units.

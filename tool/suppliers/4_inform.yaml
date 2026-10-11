@@ -1,0 +1,31 @@
+name: "Nanjing Inform Storage Equipment (Group) Co. — AS/RS, pallet four-way shuttle, AGV/RGV, WMS/WCS"
+short: "Inform"
+profile: "Shanghai-listed (SSE 603066) intralogistics group: racking, stacker cranes, pallet four-way shuttles, AGV/RGV, WMS/WCS. Thailand factory (2022) built to serve US customers. No US subsidiary or UL listing found."
+sources:
+  - "Pallet four-way shuttle 1.0/1.5/2.0 t, -25 °C to +45 °C: https://www.inform-international.com/news/enhancing-warehouse-efficiency-with-inform-storages-four-way-pallet-shuttle/"
+  - "Cold-chain meat store, 7 cranes + 4 shuttles, 16,422 positions: https://www.inform-international.com/news/stacker-cranes-shuttles-system-makes-cold-chain-logistics-smarter/"
+  - "Stacker cranes: https://www.inform-international.com/stacker-crane-product/"
+  - "Thailand factory for US market: https://www.inform-international.com/news/the-groundbreaking-ceremony-of-inform-thailand-factory-was-grandly-held/"
+gates:
+  G1: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Fixed AS/RS: height set by rack/crane design (Shuanghui Mianyang benchmark 24 m). Crane max height not published. Retrofit requires replacing racks in operating buildings."}
+  G2: {PLANT: pass, DC: pass, NEW: pass, note: "Pallet four-way shuttle published at 1.0 / 1.5 / 2.0 t classes (select 1.5 t for 1,134 kg)."}
+  G3: {PLANT: pass, DC: pass, NEW: pass, note: "Shuttle rated -25 °C to +45 °C (official page)."}
+  G4: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Fixed systems stay inside one zone; cross-zone flow by conveyor through airlocks (design, not vehicle capability)."}
+  G5: {PLANT: unverified, DC: unverified, NEW: unverified, note: "40×48 in GMA grid-base pallet compatibility with shuttle rails/conveyors to be tested (China norm is 1200×1000)."}
+  G6: {PLANT: unverified, DC: unverified, NEW: unverified, note: "No UL / NRTL listing, ANSI MH16.1 racking, or NEC-compliant install base found."}
+scores:
+  T1: {score: 4, evidence: claimed, note: "-25 °C, up to 2 t shuttle; high-bay cranes. Best fit for greenfield density."}
+  T2: {score: 4, evidence: claimed, note: "Crane + multi-shuttle throughput scales by aisle/shuttle count; DC1-scale figures to be simulated."}
+  T3: {score: 4, evidence: claimed, note: "No mixed traffic inside the store (unmanned zone)."}
+  T4: {score: 4, evidence: claimed, note: "Racking + cranes + shuttles + AGV/RGV + conveyor + WMS/WCS (turnkey store); no high-reach forklift line."}
+  T5: {score: 3, evidence: claimed, note: "Own WMS/WCS; interface to Smithfield WMS/WES to be specified."}
+  T6: {score: 0, evidence: unverified, note: "Shuttle battery/charging in -25 °C not documented."}
+  T7: {score: 0, evidence: unverified, note: "Not published."}
+  C1: {score: 2, evidence: claimed, note: "Brownfield retrofit = rack replacement + downtime → payback > 3 yrs; greenfield economics favourable (density, freezer energy)."}
+  C2: {score: 1, evidence: claimed, note: "No US subsidiary; Thailand plant + export logistics. Needs a US installation/service partner."}
+  C3: {score: 3, evidence: claimed, note: "Listed group with multi-project delivery; NA projects not evidenced."}
+  C4: {score: 4, evidence: verified, note: "SSE-listed (603066), audited financials available."}
+  C5: {score: 3, evidence: claimed, note: "Hangzhou cold-chain imported-meat store (7 cranes + 4 shuttles, 16,422 positions)."}
+  R1: {score: 3, evidence: claimed, note: "Thailand manufacturing may avoid China-origin tariffs on some content — needs customs-broker ruling."}
+  R2: {score: 0, evidence: unverified, note: "Not documented."}
+  R3: {score: 0, evidence: unverified, note: "To be negotiated."}
