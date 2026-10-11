@@ -1,0 +1,74 @@
+# Smithfield material-handling supplier evaluation — criteria definition (reusable)
+# Edit weights/thresholds here; score.py re-renders the scorecard for any supplier file in tool/suppliers/.
+#
+# Evidence levels (applied to every data point):
+#   verified    — official datasheet / spec page / filing / site test witnessed by Smithfield
+#   claimed     — vendor marketing, press release, trade press, or customer case without numbers
+#   unverified  — no information provided / found. Scores 0 and is listed as a gap to close in RFQ.
+# Evidence multipliers convert a raw 0–5 score into a risk-adjusted score.
+evidence_multiplier:
+  verified: 1.0
+  claimed: 0.7
+  unverified: 0.0
+
+# Scenarios the network must cover. Gates are evaluated per scenario.
+scenarios:
+  PLANT: {name: "Existing plants (36) — retrofit", height_m: 8.5, load_kg: 1134, min_temp_c: -18, cross_zone: true}
+  DC:    {name: "Existing DCs (4) — retrofit",     height_m: 10.5, load_kg: 1134, min_temp_c: -18, cross_zone: true}
+  NEW:   {name: "New flagship plant (Sioux Falls) — greenfield", height_m: null, load_kg: 1134, min_temp_c: -25, cross_zone: true,
+          note: "Height is a design variable: gates are checked against the height the supplier's design proposes."}
+
+# ---------------------------------------------------------------------------------
+# 1) KNOCK-OUT GATES — binding physical / legal constraints. Any FAIL on a scenario
+#    excludes the supplier for that scenario regardless of weighted score.
+#    UNVERIFIED = conditional; must be proven in RFQ + witnessed test before award.
+# ---------------------------------------------------------------------------------
+gates:
+  - id: G1
+    name: Lift / storage height
+    test: "Max fork (or crane) height >= scenario height (8.5 m plants, 10.5 m DCs; top beam 10.46 m)"
+  - id: G2
+    name: Residual capacity at required height
+    test: "Rated load at the required lift height >= 1,134 kg (2,500 lb max pallet), not just nominal capacity at ground level"
+  - id: G3
+    name: Freezer operation
+    test: "Continuous operation at -18 °C (DC/plant freezers); -25 °C rating preferred for new plant"
+  - id: G4
+    name: Cross-zone operation
+    test: "Same vehicle can move ambient ↔ chilled (-2 °C) ↔ frozen (-18 °C) without condensation/icing failure of sensors, electronics, battery"
+  - id: G5
+    name: Load carrier
+    test: "Handles 40×48 in GMA pallets with grid-pattern bottom, 4-way entry, pallet pocket detection"
+  - id: G6
+    name: North American safety compliance
+    test: "ANSI/ITSDF B56.5 (driverless trucks), UL 3100 or UL 583 listing via NRTL, OSHA 1910.178 compatible; or a dated certification plan"
+
+# ---------------------------------------------------------------------------------
+# 2) WEIGHTED CRITERIA — scored 0–5, multiplied by evidence multiplier, weighted.
+#    Weights sum to 100 across all groups.
+# ---------------------------------------------------------------------------------
+groups:
+  - id: T
+    name: Technical fit
+    criteria:
+      - {id: T1, w: 10, name: "Height × load × temperature envelope", scale: "5 = ≥11 m @ ≥1.2 t @ ≤-25 °C; 3 = meets 10.5 m/1.13 t/-18 °C exactly; 1 = horizontal transport only; 0 = unknown"}
+      - {id: T2, w: 8,  name: "Throughput per vehicle at height", scale: "Dock→rack cycles/h at 10.5 m. 5 = ≥12 pal/h; 3 = 8–12; 1 = <6 or horizontal only"}
+      - {id: T3, w: 6,  name: "Navigation & mixed-traffic robustness", scale: "5 = reflector-free SLAM/vision + 3D obstacle & pallet detection, proven in mixed human traffic; 1 = path-fixed, frequent stops"}
+      - {id: T4, w: 6,  name: "Product breadth for single-supplier coverage", scale: "5 = pallet truck + counterbalance + reach/high-reach + freezer variants + fleet mgr; 1 = one vehicle type"}
+      - {id: T5, w: 7,  name: "Systems integration", scale: "5 = documented open API, VDA 5050, WMS/WCS adapters (Infor/Accellos, Manhattan, SAP EWM), works with read-only WMS via middleware; 1 = proprietary only"}
+      - {id: T6, w: 5,  name: "Energy & cold-battery performance", scale: "5 = heated Li-ion, opportunity charging, ≥20 h/day duty cycle proven in freezer; 1 = lead-acid swap"}
+      - {id: T7, w: 4,  name: "Food-plant hygiene & environment", scale: "5 = IP54+ sensors/electronics, washdown-tolerant, food-grade lubricants, USDA-FSIS plant references"}
+  - id: C
+    name: Commercial & operational
+    criteria:
+      - {id: C1, w: 10, name: "TCO & payback vs group standard (<3 yrs)", scale: "5 = modelled payback ≤2 yrs at DC1 volumes; 3 = 2.5–3 yrs; 1 = >3.5 yrs (Supplier A today: 3.9)"}
+      - {id: C2, w: 9,  name: "North American service & delivery", scale: "5 = US entity, US field techs, US spare-parts depot, ≤4 h remote / ≤24 h onsite SLA; 1 = China-only remote support"}
+      - {id: C3, w: 6,  name: "Scale to roll out 41 sites", scale: "5 = >5,000 units shipped, multi-site programmes, NA project team; 1 = <200 units"}
+      - {id: C4, w: 5,  name: "Financial stability", scale: "5 = listed / audited financials, profitable or well funded; 1 = opaque"}
+      - {id: C5, w: 5,  name: "References — cold chain / meat", scale: "5 = named freezer + meat references incl. NA; 3 = cold-chain references outside NA; 1 = none"}
+  - id: R
+    name: Risk & governance
+    criteria:
+      - {id: R1, w: 7,  name: "Trade & tariff exposure", scale: "5 = US/Mexico final assembly or tariff-inclusive firm pricing; 1 = full exposure to Section 301 + reciprocal tariffs on China-made trucks"}
+      - {id: R2, w: 6,  name: "Cybersecurity & data sovereignty", scale: "5 = on-prem fleet manager, no mandatory China cloud, SBOM, customer-controlled remote access, IEC 62443 alignment; 1 = vendor-cloud dependency"}
+      - {id: R3, w: 6,  name: "Contract performance guarantees", scale: "5 = guaranteed throughput & ≥98 % availability with liquidated damages, pilot-to-scale price lock; 1 = best-effort"}
