@@ -46,3 +46,6 @@ All times PDT.
 - Self-caught error: Plant 1 pallets are 1,000–1,500 kg, so the PLANT gate was raised from 1,134 kg to 1,500 kg; new-plant design load stays 1.5 t. Gate outcomes unchanged (were already UNVERIFIED for residual capacity).
 - Package: `package.sh` → `dist/Smithfield_logistics_package.zip` (2 PDFs + XLSX + README + tool source + research notes + this log). Fresh-unzip test: unzipped into a clean scratch dir, ran `./build.sh` per README → identical payback output. Secrets scan of repo, history and zip: clean (no keys used in this project).
 - Launched an independent "skeptical judge" sub-agent to review both PDFs against the brief and recompute numbers.
+
+## 14:14 — Verification caught an XLSX bug
+- Inspecting `supplier_scorecard.xlsx` showed data rows shifted by one (openpyxl `ws.cell()` lookups created cells before `append`), so formula totals summed blanks. Fixed with `get_column_letter`; recalculated the workbook with an independent formula engine (`formulas` lib): totals 14.62 / 34.30 / 29.76 / 35.36 = identical to score.py.

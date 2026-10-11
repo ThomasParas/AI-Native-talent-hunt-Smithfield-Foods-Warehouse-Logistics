@@ -59,6 +59,7 @@ def load_suppliers():
 def write_xlsx(results, path):
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill
+    from openpyxl.utils import get_column_letter as L
 
     wb = Workbook()
     ws = wb.active
@@ -77,14 +78,14 @@ def write_xlsx(results, path):
         for j, r in enumerate(results):
             col = 6 + j * 3
             s = r["rows"][i]
-            sc, ev = ws.cell(n, col).column_letter, ws.cell(n, col + 1).column_letter
+            sc, ev = L(col), L(col + 1)
             row += [s["score"], s["evidence"],
                     f'=D{n}*{sc}{n}/5*IF({ev}{n}="verified",1,IF({ev}{n}="claimed",0.7,0))']
         ws.append(row)
     last = len(CRITERIA) + 1
     tot = ["", "", "TOTAL (risk-adjusted, /100)", f"=SUM(D2:D{last})", ""]
     for j, _ in enumerate(results):
-        col = ws.cell(1, 8 + j * 3).column_letter
+        col = L(8 + j * 3)
         tot += ["", "", f"=SUM({col}2:{col}{last})"]
     ws.append(tot)
     for c in ws[last + 1]:
