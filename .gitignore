@@ -7,3 +7,5 @@ dist/
 # partner-provided brief: keep out of the public repo
 warehouse_project.docx
 .DS_Store
+# office lock files
+.~lock.*#
