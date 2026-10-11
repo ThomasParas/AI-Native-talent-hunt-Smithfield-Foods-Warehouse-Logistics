@@ -9,7 +9,7 @@ sources:
   - "Funding / scale: https://techcrunch.com/2022/04/29/chinas-logistics-robot-maker-visionnav-raises-79m-at-500m-valuation"
 gates:
   G1: {PLANT: pass, DC: pass, NEW: pass, note: "VNR20 official mast options 8,300 / 9,200 / 10,200 / 11,200 mm (11.2 m ≥ 10.46 m top beam)."}
-  G2: {PLANT: unverified, DC: unverified, NEW: unverified, note: "2,000 kg rated at standard 7 m mast; residual at 8.5/10.5 m NOT published ('taller masts may reduce capacity'). Need load chart for 1,134 kg."}
+  G2: {PLANT: unverified, DC: unverified, NEW: unverified, note: "2,000 kg rated at standard 7 m mast; residual at 8.5/10.5 m NOT published ('taller masts may reduce capacity'). Need load chart for 1,134 kg @10.46 m (DCs) and 1,500 kg @8.5 m (plants)."}
   G3: {PLANT: unverified, DC: unverified, NEW: unverified, note: "Optional battery-heating module listed; no published -18 °C rating for VNR20 (a -25 °C claim exists only on a reseller page for VNQ50)."}
   G4: {PLANT: unverified, DC: unverified, NEW: claimed, note: "No cross-zone evidence. New plant designed so vehicles never cross zones (airlock conveyor hand-off), removing the requirement."}
   G5: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Pallet-pocket detection by vision marketed; 40×48 GMA test to be witnessed."}

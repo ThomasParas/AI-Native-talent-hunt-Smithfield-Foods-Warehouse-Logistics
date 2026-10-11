@@ -79,7 +79,7 @@ Our back-calculation shows that scope replaces only ≈{A["positions_replaced"]}
 <div class="box"><b>Recommendation: a combination of two suppliers, organised as two layers with one shared control layer.</b> A single supplier for every scenario is not feasible on current evidence: no Chinese mobile-robot supplier
 can deliver the high-density -25 °C storage that a world-class greenfield plant needs, and the storage specialist has no high-reach forklift line or US service network for 40 brownfield sites.
 <ol>
-<li><b>VisionNav as the single mobile-robot supplier</b> for all 36 plants, 4 DCs and the new plant's horizontal flows. This keeps the company's single-supplier preference wherever vehicles are involved. Award depends on a witnessed test of 1,134 kg at 10.46 m and -18 °C, plus a UL 3100 plan.</li>
+<li><b>VisionNav as the single mobile-robot supplier</b> for all 36 plants, 4 DCs and the new plant's horizontal flows. This keeps the company's single-supplier preference wherever vehicles are involved. Award depends on witnessed tests (1,134 kg at 10.46 m for DCs, 1,500 kg at 8.5 m for plants, at -18 °C) plus a UL 3100 plan.</li>
 <li><b>Inform as the storage-system supplier for the new plant only:</b> a -25 °C high-bay frozen store with stacker cranes and a chilled four-way-shuttle buffer, designed in with Epstein (the design-build contractor).</li>
 <li><b>A supplier-neutral control layer owned by Smithfield</b> (WES/orchestrator + VDA 5050), so the network runs as one system and no supplier controls the integration.</li>
 </ol>
@@ -92,9 +92,13 @@ Multiway is a qualified second source for the 8.5 m plants, which keeps pricing 
 </div>
 
 <h2>1. Network requirements and the sourcing result</h2>
-<p>Binding retrofit constraints (from the brief and DC1 data): stack to <b>8.5 m</b> in plants and <b>10.5 m</b> in DCs (top beam 10.46 m); pallets 544–907 kg, max <b>1,134 kg</b>, 40×48 in GMA grid-base;
+<p>Binding retrofit constraints (from the brief and DC1 data): stack to <b>8.5 m</b> in plants and <b>10.5 m</b> in DCs (top beam 10.46 m); DC pallets 544–907 kg, max <b>1,134 kg</b>, plant pallets up to <b>1,500 kg</b> (Plant 1), 40×48 in GMA grid-base;
 chilled -2 °C and frozen <b>-18 °C</b>; mixed chilled and frozen truckloads; 20 h/day. Smithfield context: Olathe, KS is already a fully automated cold DC (Lineage, 18 cranes), so this plan does not re-pitch a generic automated DC.
 It targets the 4 DCs and 36 plants that are still manual, and the Sioux Falls plant ($1.3B, production end-2028), whose warehouse design is still open.</p>
+<p><b>How we sourced the alternatives.</b> (1) <i>Long list</i>, 16 independently traceable Chinese suppliers across two solution types. Mobile robots: VisionNav, Multiway, Hikrobot, Geek+, Quicktron, Mooe, Jaten, Standard Robots, Youibot, Hangcha. Automated storage (AS/RS, four-way shuttle, conveyors): Inform, BZKJ, KSEC, Kede, Zikoo, Siasun.
+(2) <i>Desk screen</i> against the knock-out gates using official datasheets first. Out: Geek+ (120 mm lift, −10 °C), Quicktron (3.5 m), Hikrobot (4.5 m, no cold rating, Hikvision sanctions exposure), and others with no high-reach or cold specs.
+(3) <i>Shortlist and score</i>: VisionNav, Multiway, Inform (supplier_evaluation_criteria.pdf). (4) <i>RFQ → witnessed factory test → DC1 pilot</i> before any award (section 6).
+We also checked for an in-group reference: Shuanghui's (WH Group China) Mianyang −18 °C high-bay store used imported equipment, so there is no Chinese supplier reference inside the group yet.</p>
 <table><tr><th>Supplier</th><th>Role</th><th>Plants</th><th>DCs</th><th>New plant</th><th>Risk-adj. score</th></tr>{single_rows}</table>
 <p class="small">CONDITIONAL = no gate failed, but at least one is claimed or unverified and must be proven before award. Hikrobot was screened out (Hikvision subsidiary; US Entity List / FCC Covered List). Non-Chinese freezer AGVs (Dematic, Muratec) are kept only as a price/spec benchmark and fallback.</p>
 
@@ -164,7 +168,7 @@ A two-day time study settles it; at a realistic 8 pal/h, {P1["units_needed_at_8_
 <tr><td>Frozen storage</td><td><b>-25 °C high-bay AS/RS, ≈24 m, stacker cranes</b> (Inform)</td><td>≈13 levels vs 7 at 10.5 m (×1.9) and deep lanes with no reach-truck aisles (≈0.6 vs 0.32 positions/m² per level, ×1.9), so ≈3.5× pallets per m² (indicative ±20 %). Smaller freezer envelope (≈55–60 % less surface per pallet at equal capacity). No people at -25 °C. In-group benchmark: Shuanghui Mianyang -18 °C store, 24 m, 15 cranes, ≈29,500 positions.</td><td>A second supplier; higher fixed capex and less layout flexibility than AGVs; crane redundancy needed (n+1 aisles)</td></tr>
 <tr><td>Freezer set-point</td><td><b>-25 °C</b> (vs -18 °C in existing sites)</td><td>Longer frozen shelf life for export pork; Inform's pallet shuttle is rated -25 °C to +45 °C</td><td>Roughly 2–4 % more refrigeration energy per °C (rule of thumb, to be confirmed by the refrigeration designer)</td></tr>
 <tr><td>Chilled buffer (0–2 °C)</td><td><b>Pallet four-way shuttles, 1.5 t class</b></td><td>Short dwell and high throughput; add shuttles as volume grows; no single-aisle failure point</td><td>Lower height than cranes</td></tr>
-<tr><td>Design load</td><td><b>1.5 t per position</b></td><td>1,134 kg max pallet plus margin; matches Inform's 1.5 t shuttle class; also suits 1,000–1,500 kg plant pallets</td><td>Heavier racking and slab (DC1 benchmark ≥2 t/m²)</td></tr>
+<tr><td>Design load</td><td><b>1.5 t per position</b></td><td>Covers the 1,134 kg DC max and 1,000–1,500 kg plant pallets; matches Inform's 1.5 t shuttle class</td><td>Heavier racking and slab (DC1 benchmark ≥2 t/m²)</td></tr>
 <tr><td>Zones</td><td><b>Ambient packaging · 0–2 °C chilled · -25 °C frozen · blast cells</b></td><td>Each zone has its own vehicles; blast cells feed the frozen store directly by conveyor</td><td>More P&amp;D stations and conveyors</td></tr>
 <tr><td>Mobile layer</td><td><b>VisionNav</b> for end-of-line (palletiser → P&amp;D), dock loading and packaging supply</td><td>Same fleet, software, spares and training as the 40 retrofit sites</td><td>None vs alternatives</td></tr>
 <tr><td>Pallet standard</td><td><b>40×48 in GMA, 4-way, inspected at infeed</b></td><td>Network compatibility with DCs and customers</td><td>Inform must prove GMA pallets on its rails (China standard is 1200×1000)</td></tr>
@@ -187,7 +191,7 @@ This option is kept as a fallback if Inform fails its gates (UL listing, GMA pal
 <h2>6. Roadmap and award gates</h2>
 <table><tr><th>When</th><th>Action</th><th>Gate to pass</th></tr>
 <tr><td>Q4 2026 (next 90 days)</td><td>RFQs: VisionNav (network), Multiway (plants), Dematic/Muratec (benchmark). Inform design-in RFQ with Epstein. Plant 1 time study. DC1 5S and traffic segregation. WES selection. Customs ruling.</td><td>Complete load charts, cold ratings, UL plan, DDP prices</td></tr>
-<tr><td>Q1 2027</td><td>Witnessed factory tests in China (-18 °C chamber, 1,134 kg at 10.46 m); Inform GMA-pallet test</td><td>G1–G5 PASS</td></tr>
+<tr><td>Q1 2027</td><td>Witnessed factory tests in China (-18 °C chamber; 1,134 kg at 10.46 m and 1,500 kg at 8.5 m); Inform GMA-pallet test</td><td>G1–G5 PASS</td></tr>
 <tr><td>Q2 2027</td><td>DC1 pilot: chilled + frozen fleets, dock sort, airlock P&amp;D, WES live (8 weeks)</td><td>≥ simulated pal/h, ≥98 % availability, NRTL sign-off, payback &lt;3 yrs re-modelled</td></tr>
 <tr><td>H2 2027</td><td>DCs 2–4; plant wave 1 (top 8 by payback, VisionNav vs Multiway competed)</td><td>Wave payback &lt;3 yrs</td></tr>
 <tr><td>1H 2027 → end-2028</td><td>Sioux Falls: storage design freeze aligned with groundbreaking; install and commission 2028</td><td>Design review; FAT; SAT before production start</td></tr>

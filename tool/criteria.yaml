@@ -13,9 +13,9 @@ evidence_multiplier:
 
 # Scenarios the network must cover. Gates are evaluated per scenario.
 scenarios:
-  PLANT: {name: "Existing plants (36) — retrofit", height_m: 8.5, load_kg: 1134, min_temp_c: -18, cross_zone: true}
+  PLANT: {name: "Existing plants (36) — retrofit", height_m: 8.5, load_kg: 1500, min_temp_c: -18, cross_zone: true}
   DC:    {name: "Existing DCs (4) — retrofit",     height_m: 10.5, load_kg: 1134, min_temp_c: -18, cross_zone: true}
-  NEW:   {name: "New flagship plant (Sioux Falls) — greenfield", height_m: null, load_kg: 1134, min_temp_c: -25, cross_zone: true,
+  NEW:   {name: "New flagship plant (Sioux Falls) — greenfield", height_m: null, load_kg: 1500, min_temp_c: -25, cross_zone: true,
           note: "Height is a design variable: gates are checked against the height the supplier's design proposes."}
 
 # ---------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ gates:
     test: "Max fork (or crane) height >= scenario height (8.5 m plants, 10.5 m DCs; top beam 10.46 m)"
   - id: G2
     name: Residual capacity at required height
-    test: "Rated load at the required lift height >= 1,134 kg (2,500 lb max pallet), not just nominal capacity at ground level"
+    test: "Rated load at the required lift height >= scenario max pallet: 1,134 kg at DCs (2,500 lb), 1,500 kg at plants (Plant 1 loads 1,000–1,500 kg) — not just nominal capacity at ground level"
   - id: G3
     name: Freezer operation
     test: "Continuous operation at -18 °C (DC/plant freezers); -25 °C rating preferred for new plant"

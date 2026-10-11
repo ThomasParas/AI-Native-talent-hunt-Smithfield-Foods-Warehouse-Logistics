@@ -116,7 +116,7 @@ Scores are deliberately conservative: unverified evidence scores zero, so each s
 
 <h2>2. Scenarios and binding constraints</h2>
 {scen_table()}
-<p class="small">Sources: Smithfield brief; DC1 data (rack 12.3 m, top beam 10.46 m, 544–907 kg typical, 1,134 kg max, 40×48 in GMA grid-base pallets, chilled -2 °C / frozen -18 °C, 20 h/day). New-plant parameters are design variables; -25 °C is the recommended freezer set-point (see solution).</p>
+<p class="small">Sources: Smithfield brief; DC1 data (rack 12.3 m, top beam 10.46 m, 544–907 kg typical, 1,134 kg max; Plant 1 loads 1,000–1,500 kg; 40×48 in GMA grid-base pallets, chilled -2 °C / frozen -18 °C, 20 h/day). New-plant parameters are design variables; -25 °C is the recommended freezer set-point (see solution).</p>
 
 <h2>3. Knock-out gates (technical and legal)</h2>
 {gates_table()}
@@ -138,7 +138,7 @@ everything else (certification, service, financials, cybersecurity, contract ter
 
 <h2 class="pb">Appendix: RFQ verification checklist (turns CONDITIONAL into PASS/FAIL)</h2>
 <table><tr><th>Gate / criterion</th><th>Required evidence</th><th>Witnessed test</th></tr>
-<tr><td>G1 + G2 height × load</td><td>Stamped load chart: residual capacity at 8.5 m and 10.46 m beam for a 1,134 kg 40×48 in load, load centre 24 in</td><td>Factory test: 20 put/pick cycles at 10.46 m with 1,134 kg; deflection and mast sway logged</td></tr>
+<tr><td>G1 + G2 height × load</td><td>Stamped load chart: residual capacity for a 40×48 in load (24 in load centre): 1,500 kg at 8.5 m (plants) and 1,134 kg at the 10.46 m beam (DCs)</td><td>Factory test: 20 put/pick cycles at 10.46 m with 1,134 kg; deflection and mast sway logged</td></tr>
 <tr><td>G3 freezer</td><td>Rated operating range; battery heating; sensor/LiDAR/camera heater spec</td><td>72 h continuous duty in -18 °C chamber (-25 °C for new plant) incl. charging</td></tr>
 <tr><td>G4 cross-zone</td><td>Condensation/frost mitigation design, dwell limits</td><td>50 transitions -18 °C ↔ +2 °C ↔ ambient with no navigation fault (only if vehicles are expected to cross zones)</td></tr>
 <tr><td>G5 load carrier</td><td>Pallet detection spec for GMA grid-base, damaged-pallet handling</td><td>Run with 100 pallets drawn from DC1 inbound, incl. damaged ones</td></tr>

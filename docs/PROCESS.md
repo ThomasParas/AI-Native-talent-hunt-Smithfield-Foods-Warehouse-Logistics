@@ -38,3 +38,11 @@ All times PDT.
 - DC1 end-to-end payback (17 zone-dedicated high-reach AGVs, 122 moves/h): base 2.73 yrs; sensitivity 2.2–3.4 yrs. Break-even landed price ≈ $210k/AGV for <3 yrs → becomes a negotiation ceiling.
 - Supplier A back-solve: horizontal-only chilled scope replaces ~1.8 positions (~$294k/yr) → 3.9-yr payback implies ~$1.15M all-in. Even at 6.2 pal/h the savings pool is capped → structural, not operational.
 - Plant 1: demand 24 pal/h vs stated 147 pal/h capacity (16 % util.) → ~4 units suffice; redeploy 3 units.
+
+## 14:08–14:12 — Build (AI drafting, human-directed architecture)
+- Rendered both PDFs from data (HTML → headless Chromium) via `build.sh`; the numbers in the prose are pulled from `scores.json` / `payback.json`, so text and model cannot drift.
+- Design calls made while drafting: (1) cross-zone requirement solved by *process design* (zone-dedicated vehicles + airlock conveyors) instead of trusting unproven vehicle claims; (2) dock-side sort of mixed chilled/frozen trucks; (3) new plant at -25 °C / ~24 m crane AS/RS, ≈3.5× density vs 10.5 m AGV racking (indicative), with AGV-only design kept as fallback; (4) Smithfield owns the control layer (WES + VDA 5050) so two suppliers still run as one system.
+- Added a "how we sourced" paragraph (16-supplier long list → desk screen → shortlist → RFQ/FAT/pilot) after re-reading the brief ("determine how to source alternative suppliers").
+- Self-caught error: Plant 1 pallets are 1,000–1,500 kg, so the PLANT gate was raised from 1,134 kg to 1,500 kg; new-plant design load stays 1.5 t. Gate outcomes unchanged (were already UNVERIFIED for residual capacity).
+- Package: `package.sh` → `dist/Smithfield_logistics_package.zip` (2 PDFs + XLSX + README + tool source + research notes + this log). Fresh-unzip test: unzipped into a clean scratch dir, ran `./build.sh` per README → identical payback output. Secrets scan of repo, history and zip: clean (no keys used in this project).
+- Launched an independent "skeptical judge" sub-agent to review both PDFs against the brief and recompute numbers.

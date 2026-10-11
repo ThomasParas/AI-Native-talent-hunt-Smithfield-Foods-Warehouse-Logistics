@@ -9,7 +9,7 @@ sources:
   - "Company / Atlanta office: https://www.mw-r.com/"
 gates:
   G1: {PLANT: pass, DC: claimed, NEW: pass, note: "R14/R16 9.0 m, R20 9.5 m (≥8.5 m plants). DCs only via MW-K16 VNA (11 m std), which needs wire/rail-guided VNA aisles — not the existing DC racking."}
-  G2: {PLANT: unverified, DC: fail, NEW: unverified, note: "Published: R16 750 kg at 9.5 m; K16 700 kg at max lift — below 1,134 kg max pallet. Residual at 8.5 m for R20 not published."}
+  G2: {PLANT: unverified, DC: fail, NEW: unverified, note: "Published: R16 750 kg at 9.5 m; K16 700 kg at max lift — below 1,134 kg max pallet. Residual at 8.5 m for R20 (2 t nominal) not published; plants need 1,500 kg at 8.5 m, so R16 is unlikely to qualify."}
   G3: {PLANT: claimed, DC: claimed, NEW: claimed, note: "R-series brochure: operation down to -30 °C."}
   G4: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Only supplier found claiming 'high and low-temperature switching'."}
   G5: {PLANT: claimed, DC: claimed, NEW: claimed, note: "Standard pallet handling; GMA grid-base test to be witnessed."}
